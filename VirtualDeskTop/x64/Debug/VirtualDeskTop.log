@@ -1,0 +1,7 @@
+﻿  VirtualDeskTop.cpp
+d:\codes\virtualdesktop_v2\virtualdesktop\virtualdesktop.cpp(304): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  CAPI_GLE.cpp
+d:\codes\virtualdesktop_v2\include\ovr\src\gl\capi_gle.cpp(53): warning C4005: 'OVRTypeof': macro redefinition
+  d:\codes\virtualdesktop_v2\include\ovr\src\gl\capi_gle.cpp(51): note: see previous definition of 'OVRTypeof'
+d:\codes\virtualdesktop_v2\include\ovr\src\gl\capi_gle.cpp(7986): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  Generating Code...
