@@ -1,0 +1,13 @@
+﻿  Scene.cpp
+Scene.cpp(43): warning C4018: '<': signed/unsigned mismatch
+Scene.cpp(41): warning C4100: 'stillview': unreferenced formal parameter
+Scene.cpp(63): warning C4390: ';': empty controlled statement found; is this the intent?
+Scene.cpp(90): warning C4018: '<': signed/unsigned mismatch
+Scene.cpp(112): warning C4018: '<': signed/unsigned mismatch
+Scene.cpp(119): warning C4458: declaration of 'vd' hides class member
+  d:\codes\virtualdesktop\virtualdesktop\Scene.h(28): note: see declaration of 'Scene::vd'
+Scene.cpp(134): warning C4018: '>': signed/unsigned mismatch
+  Generating code
+  Finished generating code
+  VirtualDeskTop.vcxproj -> D:\Codes\VirtualDesktop\Release\VirtualDeskTop.exe
+  VirtualDeskTop.vcxproj -> D:\Codes\VirtualDesktop\Release\VirtualDeskTop.pdb (Full PDB)
