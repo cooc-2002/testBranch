@@ -38,7 +38,7 @@ void Model::FreeBuffers()
 	delete indexBuffer; indexBuffer = nullptr;
 }
 
-void Model::AddSolidQuad(float x, float y, float z, float w, float h, bool reversing)
+void Model::AddSolidQuad(float x, float y, float z, float w, float h, bool reversing, bool curved)
 {
 	int i, division = 100, index = 0;
 	float radian = w / z;
@@ -63,12 +63,14 @@ void Model::AddSolidQuad(float x, float y, float z, float w, float h, bool rever
 
 	// Generate a quad for each box face
 	Vertex temp;
-	if (reversing) {
+	char state = (reversing << 1) | curved;
+	switch (state) {
+	case 3:
 		temp.Pos = Vector3f(z*cos(ir), y + h, z*sin(ir)); temp.U = 1.0f; temp.V = 1.0f; temp.C = 0xffffffff;
 		Vertices.push_back(temp);
 		temp.Pos = Vector3f(z*cos(ir), y, z*sin(ir)); temp.U = 1.0f; temp.V = 0.0f; temp.C = 0xffffffff;
 		Vertices.push_back(temp);
-		
+
 		for (i = 1; i <= division; i++) {
 			ir -= rs;
 			temp.Pos = Vector3f(z*cos(ir), y, z*sin(ir)); temp.U = 1.0f - ts*i; temp.V = 0; temp.C = 0xffffffff;
@@ -76,7 +78,38 @@ void Model::AddSolidQuad(float x, float y, float z, float w, float h, bool rever
 			temp.Pos = Vector3f(z*cos(ir), y + h, z*sin(ir)); temp.U = 1.0f - ts*i; temp.V = 1.0f; temp.C = 0xffffffff;
 			Vertices.push_back(temp);
 		}
-	} else {
+		break;
+
+	case 2:
+		temp.Pos = Vector3f(x, y + h, z); temp.U = 1.0f; temp.V = 1.0f; temp.C = 0xffffffff;
+		Vertices.push_back(temp);
+		temp.Pos = Vector3f(x, y, z); temp.U = 1.0f; temp.V = 0.0f; temp.C = 0xffffffff;
+		Vertices.push_back(temp);
+
+		for (i = 1; i <= division; i++) {
+			temp.Pos = Vector3f(x + s*i, y, z); temp.U = 1.0f - ts*i; temp.V = 0; temp.C = 0xffffffff;
+			Vertices.push_back(temp);
+			temp.Pos = Vector3f(x + s*i, y + h, z); temp.U = 1.0f - ts*i; temp.V = 1.0f; temp.C = 0xffffffff;
+			Vertices.push_back(temp);
+		}
+		break;
+
+	case 1:
+		temp.Pos = Vector3f(z*cos(ir), y + h, z*sin(ir)); temp.U = 1.0f; temp.V = 0.0f; temp.C = 0xffffffff;
+		Vertices.push_back(temp);
+		temp.Pos = Vector3f(z*cos(ir), y, z*sin(ir)); temp.U = 1.0f; temp.V = 1.0f; temp.C = 0xffffffff;
+		Vertices.push_back(temp);
+
+		for (i = 1; i <= division; i++) {
+			ir -= rs;
+			temp.Pos = Vector3f(z*cos(ir), y, z*sin(ir)); temp.U = 1.0f - ts*i; temp.V = 1.0f; temp.C = 0xffffffff;
+			Vertices.push_back(temp);
+			temp.Pos = Vector3f(z*cos(ir), y + h, z*sin(ir)); temp.U = 1.0f - ts*i; temp.V = 0.0f; temp.C = 0xffffffff;
+			Vertices.push_back(temp);
+		}
+		break;
+
+	case 0: default:
 		temp.Pos = Vector3f(x, y + h, z); temp.U = 1.0f; temp.V = 0.0f; temp.C = 0xffffffff;
 		Vertices.push_back(temp);
 		temp.Pos = Vector3f(x, y, z); temp.U = 1.0f; temp.V = 1.0f; temp.C = 0xffffffff;
@@ -88,6 +121,7 @@ void Model::AddSolidQuad(float x, float y, float z, float w, float h, bool rever
 			temp.Pos = Vector3f(x + s*i, y + h, z); temp.U = 1.0f - ts*i; temp.V = 0.0f; temp.C = 0xffffffff;
 			Vertices.push_back(temp);
 		}
+		break;
 	}
 }
 
