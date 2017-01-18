@@ -40,7 +40,7 @@ public:
 	Matrix4f& GetMatrix();
 	void AllocateBuffers();
 	void FreeBuffers();
-	void AddSolidQuad(float x, float y, float z, float width, float height, bool reversing = 0);
+	void AddSolidQuad(float x, float y, float z, float width, float height, bool reversing = 0, bool curved = 0);
 	void setTexture(GLuint _texId, unsigned char *_texData, int _width, int _height);
 	void Render(Matrix4f view, Matrix4f proj);
 };
