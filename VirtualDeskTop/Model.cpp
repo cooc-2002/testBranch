@@ -1,6 +1,8 @@
 #include "Model.h"
 #include "OVR_Buffers.h"
 
+#define PI 3.14159265359
+
 Model::Model(Vector3f pos, GLuint prog) :
 	Pos(pos),
 	Rot(),
@@ -36,34 +38,56 @@ void Model::FreeBuffers()
 	delete indexBuffer; indexBuffer = nullptr;
 }
 
-void Model::AddSolidQuad(float x, float y, float z, float _width, float _height, bool reversing)
+void Model::AddSolidQuad(float x, float y, float z, float w, float h, bool reversing)
 {
-	Indices.push_back(0);
-	Indices.push_back(1);
-	Indices.push_back(2);
-	Indices.push_back(3);
+	int i, division = 100, index = 0;
+	float radian = w / z;
+
+	Indices.push_back(index++);
+	Indices.push_back(index++);
+	Indices.push_back(index++);
+	Indices.push_back(index);
+
+	for (i = 1; i < division; i++) {
+		Indices.push_back(index--);
+		Indices.push_back(index);
+		index+=2;
+		Indices.push_back(index++);
+		Indices.push_back(index);
+	}
+
+	float s = w / division;
+	float ts = 1.0 / division;
+	float rs = radian / division;
+	float ir = (PI + radian) / 2.0f;
 
 	// Generate a quad for each box face
 	Vertex temp;
 	if (reversing) {
-		temp.Pos = Vector3f(x, y, z); temp.U = 1.0f; temp.V = 0.0f; temp.C = 0xffffffff;
+		temp.Pos = Vector3f(z*cos(ir), y + h, z*sin(ir)); temp.U = 1.0f; temp.V = 1.0f; temp.C = 0xffffffff;
 		Vertices.push_back(temp);
-		temp.Pos = Vector3f(x + _width, y, z); temp.U = 0.0f; temp.V = 0.0f; temp.C = 0xffffffff;
+		temp.Pos = Vector3f(z*cos(ir), y, z*sin(ir)); temp.U = 1.0f; temp.V = 0.0f; temp.C = 0xffffffff;
 		Vertices.push_back(temp);
-		temp.Pos = Vector3f(x + _width, y + _height, z); temp.U = 0.0f; temp.V = 1.0f; temp.C = 0xffffffff;
+		
+		for (i = 1; i <= division; i++) {
+			ir -= rs;
+			temp.Pos = Vector3f(z*cos(ir), y, z*sin(ir)); temp.U = 1.0f - ts*i; temp.V = 0; temp.C = 0xffffffff;
+			Vertices.push_back(temp);
+			temp.Pos = Vector3f(z*cos(ir), y + h, z*sin(ir)); temp.U = 1.0f - ts*i; temp.V = 1.0f; temp.C = 0xffffffff;
+			Vertices.push_back(temp);
+		}
+	} else {
+		temp.Pos = Vector3f(x, y + h, z); temp.U = 1.0f; temp.V = 0.0f; temp.C = 0xffffffff;
 		Vertices.push_back(temp);
-		temp.Pos = Vector3f(x, y + _height, z); temp.U = 1.0f; temp.V = 1.0f; temp.C = 0xffffffff;
-		Vertices.push_back(temp);
-	}
-	else {
 		temp.Pos = Vector3f(x, y, z); temp.U = 1.0f; temp.V = 1.0f; temp.C = 0xffffffff;
 		Vertices.push_back(temp);
-		temp.Pos = Vector3f(x + _width, y, z); temp.U = 0.0f; temp.V = 1.0f; temp.C = 0xffffffff;
-		Vertices.push_back(temp);
-		temp.Pos = Vector3f(x + _width, y + _height, z); temp.U = 0.0f; temp.V = 0.0f; temp.C = 0xffffffff;
-		Vertices.push_back(temp);
-		temp.Pos = Vector3f(x, y + _height, z); temp.U = 1.0f; temp.V = 0.0f; temp.C = 0xffffffff;
-		Vertices.push_back(temp);
+
+		for (i = 1; i <= division; i++) {
+			temp.Pos = Vector3f(x + s*i, y, z); temp.U = 1.0f - ts*i; temp.V = 1.0f; temp.C = 0xffffffff;
+			Vertices.push_back(temp);
+			temp.Pos = Vector3f(x + s*i, y + h, z); temp.U = 1.0f - ts*i; temp.V = 0.0f; temp.C = 0xffffffff;
+			Vertices.push_back(temp);
+		}
 	}
 }
 

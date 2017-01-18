@@ -42,8 +42,8 @@ void Scene::Render(Matrix4f stillview, Matrix4f view, Matrix4f proj){
 	screenCopy->ScreenUpdate();
 	for (int i = 0; i < Models.size(); ++i)
 		if (i == 0)
-			Models[i]->Render(view, proj);
-			//Models[i]->Render(stillview, proj);
+			//Models[i]->Render(view, proj);
+			Models[i]->Render(stillview, proj);
 		else
 			Models[i]->Render(view, proj);
 }
@@ -79,8 +79,8 @@ void Scene::Init()
 	glGenTextures(1, &screenTexId);
 
 	Model *m;
-	m = new Model(Vector3f(0, 0, 80), program);  // See through screen
-	m->AddSolidQuad(-192.0f / 2.0f, -120.0f / 2.0f, 0.0f, 192.0f, 120.0f, 1);
+	m = new Model(Vector3f(0, 0, 0), program);  // See through screen
+	m->AddSolidQuad(-192.0f / 2.0f, -120.0f / 2.0f, 80.0f, 192.0f, 120.0f, 1);
 	m->setTexture(screenTexId, screenCopy->screenData, screenCopy->width, screenCopy->height);
 	m->AllocateBuffers();
 	Models.push_back(m);
@@ -89,8 +89,8 @@ void Scene::Init()
 	unsigned char *texData;
 	for (int i = 0; i < numCam; i++) {
 		texData = (vd[i].getRawImageOut())->getpPixels();
-		m = new Model(Vector3f(0, 0, 0.5f), program);
-		m->AddSolidQuad(initPoint + i*1.28f, 0.8f, 0.0f, 0.64f, 0.48f);
+		m = new Model(Vector3f(0, 0, 0), program);
+		m->AddSolidQuad(initPoint + i*1.28f, 0.5f, 1.0f, 0.64f, 0.48f);
 		m->setTexture(texId[i], texData, vd[i].getWidth(), vd[i].getHeight());
 		m->AllocateBuffers();
 		Models.push_back(m);
