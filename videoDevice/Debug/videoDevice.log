@@ -1,1 +1,180 @@
-﻿
+﻿  videoInput.cpp
+  videoDevice.cpp
+d:\codes\testbranch\videodevice\videodevice.cpp(437): warning C4244: '=': conversion from 'const UINT64' to 'unsigned int', possible loss of data
+d:\codes\testbranch\videodevice\videodevice.cpp(454): warning C4244: '=': conversion from 'const UINT64' to 'unsigned int', possible loss of data
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\xtree(1655): warning C4503: '__LINE__Var': decorated name length exceeded, name was truncated
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\xtree(1086): note: see reference to function template instantiation 'std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Insert_hint<std::pair<const _Kty,_Ty>&,std::_Tree_node<std::pair<const _Kty,_Ty>,void *>*>(std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>>,_Valty,_Nodety)' being compiled
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Pr=std::less<UINT64>,
+              _Alloc=std::allocator<std::pair<const UINT64,FrameRateMap>>,
+              _Valty=std::pair<const UINT64,FrameRateMap> &,
+              _Nodety=std::_Tree_node<std::pair<const UINT64,FrameRateMap>,void *> *
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\xtree(1085): note: see reference to function template instantiation 'std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Insert_hint<std::pair<const _Kty,_Ty>&,std::_Tree_node<std::pair<const _Kty,_Ty>,void *>*>(std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>>,_Valty,_Nodety)' being compiled
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Pr=std::less<UINT64>,
+              _Alloc=std::allocator<std::pair<const UINT64,FrameRateMap>>,
+              _Valty=std::pair<const UINT64,FrameRateMap> &,
+              _Nodety=std::_Tree_node<std::pair<const UINT64,FrameRateMap>,void *> *
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\map(213): note: see reference to function template instantiation 'std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::emplace_hint<const std::piecewise_construct_t&,std::tuple<const unsigned __int64 &>,std::tuple<>>(std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>>,const std::piecewise_construct_t &,std::tuple<const unsigned __int64 &> &&,std::tuple<> &&)' being compiled
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Pr=std::less<UINT64>,
+              _Alloc=std::allocator<std::pair<const UINT64,FrameRateMap>>
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\map(213): note: see reference to function template instantiation 'std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::emplace_hint<const std::piecewise_construct_t&,std::tuple<const unsigned __int64 &>,std::tuple<>>(std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>>,const std::piecewise_construct_t &,std::tuple<const unsigned __int64 &> &&,std::tuple<> &&)' being compiled
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Pr=std::less<UINT64>,
+              _Alloc=std::allocator<std::pair<const UINT64,FrameRateMap>>
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\map(229): note: see reference to function template instantiation 'std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>>,bool> std::map<_Kty,_Ty,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>::_Try_emplace<const unsigned __int64&,>(_Keyty)' being compiled
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Keyty=const unsigned __int64 &
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\map(229): note: see reference to function template instantiation 'std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>>,bool> std::map<_Kty,_Ty,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>::_Try_emplace<const unsigned __int64&,>(_Keyty)' being compiled
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Keyty=const unsigned __int64 &
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\map(338): note: see reference to function template instantiation 'std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>>,bool> std::map<_Kty,_Ty,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>::try_emplace<>(const unsigned __int64 &)' being compiled
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\map(338): note: see reference to function template instantiation 'std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>>,bool> std::map<_Kty,_Ty,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>::try_emplace<>(const unsigned __int64 &)' being compiled
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\map(337): note: while compiling class template member function 'std::map<UINT64,SUBTYPEMap,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>> &std::map<_Kty,FrameRateMap,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::map<_Kty,_Ty,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>>>>::operator [](const unsigned __int64 &)'
+          with
+          [
+              _Kty=UINT64,
+              _Ty=SUBTYPEMap
+          ]
+  d:\codes\testbranch\videodevice\videodevice.cpp(422): note: see reference to function template instantiation 'std::map<UINT64,SUBTYPEMap,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>> &std::map<_Kty,FrameRateMap,std::less<_Kty>,std::allocator<std::pair<const _Kty,std::map<_Kty,_Ty,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>>>>::operator [](const unsigned __int64 &)' being compiled
+          with
+          [
+              _Kty=UINT64,
+              _Ty=SUBTYPEMap
+          ]
+  d:\codes\testbranch\include\videodevice\videodevice.h(105): note: see reference to class template instantiation 'std::map<UINT64,FrameRateMap,std::less<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>' being compiled
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap
+          ]
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\xtree(1827): warning C4503: '__LINE__Var': decorated name length exceeded, name was truncated
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\xtree(1668): note: see reference to function template instantiation 'std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Insert_at<std::pair<const _Kty,_Ty>&,_Nodety>(bool,std::_Tree_node<std::pair<const _Kty,_Ty>,void *> *,_Valty,_Nodety)' being compiled
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Pr=std::less<UINT64>,
+              _Alloc=std::allocator<std::pair<const UINT64,FrameRateMap>>,
+              _Nodety=std::_Tree_node<std::pair<const UINT64,FrameRateMap>,void *> *,
+              _Valty=std::pair<const UINT64,FrameRateMap> &
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\xtree(1667): note: see reference to function template instantiation 'std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Insert_at<std::pair<const _Kty,_Ty>&,_Nodety>(bool,std::_Tree_node<std::pair<const _Kty,_Ty>,void *> *,_Valty,_Nodety)' being compiled
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Pr=std::less<UINT64>,
+              _Alloc=std::allocator<std::pair<const UINT64,FrameRateMap>>,
+              _Nodety=std::_Tree_node<std::pair<const UINT64,FrameRateMap>,void *> *,
+              _Valty=std::pair<const UINT64,FrameRateMap> &
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\xtree(1086): note: see reference to function template instantiation 'std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Insert_hint<std::pair<const _Kty,_Ty>&,std::_Tree_node<std::pair<const _Kty,_Ty>,void *>*>(std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>>,_Valty,_Nodety)' being compiled
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Pr=std::less<UINT64>,
+              _Alloc=std::allocator<std::pair<const UINT64,FrameRateMap>>,
+              _Valty=std::pair<const UINT64,FrameRateMap> &,
+              _Nodety=std::_Tree_node<std::pair<const UINT64,FrameRateMap>,void *> *
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\xtree(1085): note: see reference to function template instantiation 'std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Insert_hint<std::pair<const _Kty,_Ty>&,std::_Tree_node<std::pair<const _Kty,_Ty>,void *>*>(std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>>,_Valty,_Nodety)' being compiled
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Pr=std::less<UINT64>,
+              _Alloc=std::allocator<std::pair<const UINT64,FrameRateMap>>,
+              _Valty=std::pair<const UINT64,FrameRateMap> &,
+              _Nodety=std::_Tree_node<std::pair<const UINT64,FrameRateMap>,void *> *
+          ]
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\xtree(1771): warning C4503: '__LINE__Var': decorated name length exceeded, name was truncated
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\xtree(1764): note: see reference to function template instantiation 'std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>>,bool> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Insert_nohint<std::pair<const _Kty,_Ty>&,_Nodety>(bool,_Valty,_Nodety)' being compiled
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Pr=std::less<UINT64>,
+              _Alloc=std::allocator<std::pair<const UINT64,FrameRateMap>>,
+              _Nodety=std::_Tree_node<std::pair<const UINT64,FrameRateMap>,void *> *,
+              _Valty=std::pair<const UINT64,FrameRateMap> &
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\xtree(1763): note: see reference to function template instantiation 'std::pair<std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const _Kty,_Ty>>>>,bool> std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Insert_nohint<std::pair<const _Kty,_Ty>&,_Nodety>(bool,_Valty,_Nodety)' being compiled
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Pr=std::less<UINT64>,
+              _Alloc=std::allocator<std::pair<const UINT64,FrameRateMap>>,
+              _Nodety=std::_Tree_node<std::pair<const UINT64,FrameRateMap>,void *> *,
+              _Valty=std::pair<const UINT64,FrameRateMap> &
+          ]
+d:\codes\testbranch\videodevice\videodevice.cpp(745): warning C4503: 'std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Insert_hint': decorated name length exceeded, name was truncated
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Pr=std::less<UINT64>,
+              _Alloc=std::allocator<std::pair<const UINT64,FrameRateMap>>
+          ]
+d:\codes\testbranch\videodevice\videodevice.cpp(745): warning C4503: 'std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Insert_at': decorated name length exceeded, name was truncated
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Pr=std::less<UINT64>,
+              _Alloc=std::allocator<std::pair<const UINT64,FrameRateMap>>
+          ]
+d:\codes\testbranch\videodevice\videodevice.cpp(745): warning C4503: 'std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Insert_nohint': decorated name length exceeded, name was truncated
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Pr=std::less<UINT64>,
+              _Alloc=std::allocator<std::pair<const UINT64,FrameRateMap>>
+          ]
+  RawImage.cpp
+  Media_Foundation.cpp
+  ImageGrabberThread.cpp
+  ImageGrabber.cpp
+d:\codes\testbranch\videodevice\imagegrabber.cpp(412): warning C4838: conversion from 'DWORD' to 'int' requires a narrowing conversion
+  FormatReader.cpp
+  DebugPrintOut.cpp
+  Generating Code...
+  videoDevice.vcxproj -> D:\Codes\testBranch\lib\Win32\Debug\videoDevice.lib
