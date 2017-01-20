@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "Model.h"
 #include "ScreenCopy.h"
+#include "BackgroundScreen.h"
 
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
@@ -79,8 +80,8 @@ void Scene::Init()
 	glGenTextures(1, &screenTexId);
 
 	Model *m;
-	m = new Model(Vector3f(0, 0, 0), program);  // See through screen
-	m->AddSolidQuad(-192.0f / 2.0f, -120.0f / 2.0f, 80.0f, 192.0f, 120.0f, 1, 1);
+	m = new BackgroundScreen(Vector3f(0, 0, 0), program);  // See through screen
+	m->initScreen(-192.0f / 2.0f, -120.0f / 2.0f, 80.0f, 192.0f, 120.0f, 1, 1);
 	m->setTexture(screenTexId, screenCopy->screenData, screenCopy->width, screenCopy->height);
 	m->AllocateBuffers();
 	Models.push_back(m);
@@ -90,7 +91,7 @@ void Scene::Init()
 	for (int i = 0; i < numCam; i++) {
 		texData = (vd[i].getRawImageOut())->getpPixels();
 		m = new Model(Vector3f(0, 0, 0), program);
-		m->AddSolidQuad(initPoint + i*1.28f, 0.5f, 1.0f, 0.64f, 0.48f, 0, 0);
+		m->initScreen(initPoint + i*1.28f, 0.5f, 1.0f, 0.64f, 0.48f, 0, 1);
 		m->setTexture(texId[i], texData, vd[i].getWidth(), vd[i].getHeight());
 		m->AllocateBuffers();
 		Models.push_back(m);
