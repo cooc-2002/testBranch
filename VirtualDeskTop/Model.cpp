@@ -2,6 +2,12 @@
 #include "OVR_Buffers.h"
 
 #define PI 3.14159265359
+Model::Model(){
+	Pos = Vector3f(0, 0, 0);
+	program = 0;
+	texId = 0;
+	width = 0; height = 0;
+}
 
 Model::Model(Vector3f pos, GLuint prog) :
 	Pos(pos),
@@ -38,7 +44,7 @@ void Model::FreeBuffers()
 	delete indexBuffer; indexBuffer = nullptr;
 }
 
-void Model::AddSolidQuad(float x, float y, float z, float w, float h, bool reversing, bool curved)
+void Model::initScreen(float x, float y, float z, float w, float h, bool reversing, bool curved)
 {
 	int i, division = 100, index = 0;
 	float radian = w / z;
@@ -59,7 +65,8 @@ void Model::AddSolidQuad(float x, float y, float z, float w, float h, bool rever
 	float s = w / division;
 	float ts = 1.0 / division;
 	float rs = radian / division;
-	float ir = (PI + radian) / 2.0f;
+	//float ir = (PI + radian) / 2.0f;
+	float ir = acos(x/z);
 
 	// Generate a quad for each box face
 	Vertex temp;

@@ -12,13 +12,6 @@ struct IndexBuffer;
 class Model
 {
 private:
-	struct Vertex
-	{
-		Vector3f  Pos;
-		DWORD     C;
-		float     U, V;
-	};
-
 	Vector3f        Pos;
 	Quatf           Rot;
 	Matrix4f        Mat;
@@ -30,17 +23,26 @@ private:
 	GLuint			texId;
 	unsigned char *	texData;
 
+protected:
+	struct Vertex
+	{
+		Vector3f  Pos;
+		DWORD     C;
+		float     U, V;
+	};
+
 	std::vector<Vertex>		Vertices;
 	std::vector<GLushort>	Indices;
 
 public:
+	Model();
 	Model(Vector3f pos, GLuint prog);
 	~Model();
 
 	Matrix4f& GetMatrix();
 	void AllocateBuffers();
 	void FreeBuffers();
-	void AddSolidQuad(float x, float y, float z, float width, float height, bool reversing = 0, bool curved = 0);
+	virtual void initScreen(float x, float y, float z, float width, float height, bool reversing = 0, bool curved = 0);
 	void setTexture(GLuint _texId, unsigned char *_texData, int _width, int _height);
 	void Render(Matrix4f view, Matrix4f proj);
 };

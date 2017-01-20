@@ -185,6 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\include\OVR\Src\GL\CAPI_GLE.cpp" />
+    <ClCompile Include="BackgroundScreen.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="OGL.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -194,6 +195,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\OVR\Src\GL\CAPI_GLE.h" />
     <ClInclude Include="..\include\OVR\Src\GL\CAPI_GLE_GL.h" />
+    <ClInclude Include="BackgroundScreen.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="OVR_Buffers.h" />
     <ClInclude Include="Scene.h" />
