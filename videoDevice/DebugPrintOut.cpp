@@ -4,7 +4,6 @@
 
 #include "DebugPrintOut.h"
 
-
 DebugPrintOut::DebugPrintOut(void):verbose(true)
 {
 }

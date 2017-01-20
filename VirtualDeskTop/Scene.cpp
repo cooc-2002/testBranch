@@ -2,9 +2,9 @@
 #include "Model.h"
 #include "ScreenCopy.h"
 
-#include <core.hpp>
-#include <highgui.hpp>
-#include <imgproc.hpp>
+#include <opencv2/core.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 
 #include "videoDevice/RawImage.h"
 #include "videoDevice/VideoDevice.h"
@@ -90,7 +90,7 @@ void Scene::Init()
 	for (int i = 0; i < numCam; i++) {
 		texData = (vd[i].getRawImageOut())->getpPixels();
 		m = new Model(Vector3f(0, 0, 0), program);
-		m->AddSolidQuad(initPoint + i*1.28f, 0.5f, 1.0f, 0.64f, 0.48f, 0, 1);
+		m->AddSolidQuad(initPoint + i*1.28f, 0.5f, 1.0f, 0.64f, 0.48f, 0, 0);
 		m->setTexture(texId[i], texData, vd[i].getWidth(), vd[i].getHeight());
 		m->AllocateBuffers();
 		Models.push_back(m);
