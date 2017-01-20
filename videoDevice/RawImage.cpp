@@ -55,6 +55,7 @@ void RawImage::fastCopy(const BYTE * pSampleBuffer)
 
 	unsigned int buffersize = ri_size/4;
 	
+#ifndef _WIN64
 	_asm
 	{
 		mov ESI, bsrc
@@ -67,6 +68,10 @@ void RawImage::fastCopy(const BYTE * pSampleBuffer)
 
 		rep movsd
 	}
+#else
+	memcpy(dst, bsrc, ri_size);
+#endif // x86
+
 
 	ri_new = true;
 
