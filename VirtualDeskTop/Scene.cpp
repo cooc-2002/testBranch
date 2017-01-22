@@ -1,7 +1,9 @@
 #include "Scene.h"
 #include "Model.h"
 #include "ScreenCopy.h"
+#include "videoScreen.h"
 #include "BackgroundScreen.h"
+#include "SelectedScreen.h"
 
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
@@ -18,6 +20,8 @@
 #ifndef OVR_DEBUG_LOG
 #define OVR_DEBUG_LOG(x)
 #endif
+
+#define PI 3.14159265359
 
 Scene::Scene() {
 	screenCopy = new ScreenCopy;
@@ -43,10 +47,10 @@ void Scene::Render(Matrix4f stillview, Matrix4f view, Matrix4f proj){
 	screenCopy->ScreenUpdate();
 	for (int i = 0; i < Models.size(); ++i)
 		if (i == 0)
-			Models[i]->Render(view, proj);
+			Models[i]->Render(view, stillview, proj);
 			//Models[i]->Render(stillview, proj);
 		else
-			Models[i]->Render(view, proj);
+			Models[i]->Render(view, stillview, proj);
 }
 
 GLuint Scene::CreateShader(GLenum type, const GLchar* src){
@@ -81,21 +85,38 @@ void Scene::Init()
 
 	Model *m;
 	m = new BackgroundScreen(Vector3f(0, 0, 0), program);  // See through screen
-	m->initScreen(-192.0f / 2.0f, -120.0f / 2.0f, 80.0f, 192.0f, 120.0f, 1, 1);
 	m->setTexture(screenTexId, screenCopy->screenData, screenCopy->width, screenCopy->height);
+	m->initScreen(-192.0f / 2.0f, -120.0f / 2.0f, 80.0f, 192.0f, 120.0f);
 	m->AllocateBuffers();
 	Models.push_back(m);
 
-	float initPoint = (numCam + numCam - 1)*-0.32f;
+	SelectedScreen *pM = new SelectedScreen(Vector3f(0, 0, 0), program);
+	m = pM;
+	Models.push_back(m);
+
+	float initPoint = PI/2.0f;
 	unsigned char *texData;
+
 	for (int i = 0; i < numCam; i++) {
 		texData = (vd[i].getRawImageOut())->getpPixels();
-		m = new Model(Vector3f(0, 0, 0), program);
-		m->initScreen(initPoint + i*1.28f, 0.5f, 1.0f, 0.64f, 0.48f, 0, 1);
+		m = new videoScreen(Vector3f(0, 0, 0), program);
 		m->setTexture(texId[i], texData, vd[i].getWidth(), vd[i].getHeight());
+		m->initScreen(initPoint + i*PI/4.0f, 0.5f, 1.0f, 0.64f, 0.48f);
 		m->AllocateBuffers();
 		Models.push_back(m);
 	}
+
+	sM = Models[2];
+	pM->initScreen(sM);
+	pM->AllocateBuffers();
+}
+
+void Scene::RotationY(float diff) {
+	sM->RotationY(diff);
+}
+
+void Scene::Translate(float x, float y, float z) {
+	sM->Translate(x, y, z);
 }
 
 int Scene::InitCams() {
@@ -172,7 +193,14 @@ void Scene::InitShader() {
 		"out     vec4      FragColor;\n"
 		"void main()\n"
 		"{\n"
-		"   FragColor = texture2D(Texture0, oTexCoord);\n"
+		"	if(oColor.a == 0)\n"
+		"	{\n"
+		"		FragColor = texture2D(Texture0, oTexCoord);\n"
+		"	}\n"
+		"	else\n"
+		"	{\n"
+		"		FragColor = oColor;\n"
+		"	}\n"
 		"}\n";
 
 	GLuint    vshader = CreateShader(GL_VERTEX_SHADER, VertexShaderSrc);

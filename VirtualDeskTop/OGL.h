@@ -16,6 +16,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  *************************************************************************************/
+#pragma once;
 
 #include "GL/CAPI_GLE.h"
 #include "Extras/OVR_Math.h"
@@ -67,8 +68,10 @@ public:
 	void ReleaseDevice();
 };
 
+class Scene;
+
 // Global OpenGL state
 static OGL Platform;
-
+static Scene  *virtualScreen;
 static LRESULT CALLBACK WindowProc(_In_ HWND hWnd, _In_ UINT Msg, _In_ WPARAM wParam, _In_ LPARAM lParam);
 static void GLAPIENTRY DebugGLCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);

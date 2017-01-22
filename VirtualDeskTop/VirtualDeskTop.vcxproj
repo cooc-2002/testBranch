@@ -190,6 +190,8 @@
     <ClCompile Include="OGL.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ScreenCopy.cpp" />
+    <ClCompile Include="SelectedScreen.cpp" />
+    <ClCompile Include="videoScreen.cpp" />
     <ClCompile Include="VirtualDeskTop.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +203,8 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ScreenCopy.h" />
     <ClInclude Include="OGL.h" />
+    <ClInclude Include="SelectedScreen.h" />
+    <ClInclude Include="videoScreen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

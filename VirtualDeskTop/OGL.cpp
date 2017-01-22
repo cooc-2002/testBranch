@@ -1,5 +1,6 @@
 #include "OGL.h"
 #include <thread>
+#include "Scene.h"
 
 static LRESULT CALLBACK WindowProc(_In_ HWND hWnd, _In_ UINT Msg, _In_ WPARAM wParam, _In_ LPARAM lParam)
 {

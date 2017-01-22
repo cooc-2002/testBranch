@@ -31,12 +31,16 @@ public:
 	Scene();
 	~Scene();
 
+	Model *sM;
+
 	void Init();
 	void Release();
 	void Render(Matrix4f stillview, Matrix4f view, Matrix4f proj);
 	void InitShader();
 	GLuint CreateShader(GLenum type, const GLchar* src);
-
+	
+	void RotationY(float diff);
+	void Translate(float x, float y, float z);
 	int InitCams();
 	int OpenCamera(videoDevice *vd, IMFActivate * pActivate, unsigned int Id);
 };

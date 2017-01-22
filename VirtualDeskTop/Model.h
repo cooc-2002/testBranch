@@ -12,9 +12,12 @@ struct IndexBuffer;
 class Model
 {
 private:
+	float			Yaw;
 	Vector3f        Pos;
 	Quatf           Rot;
 	Matrix4f        Mat;
+
+protected:
 	GLuint			program;
 	VertexBuffer  * vertexBuffer;
 	IndexBuffer   * indexBuffer;
@@ -23,7 +26,6 @@ private:
 	GLuint			texId;
 	unsigned char *	texData;
 
-protected:
 	struct Vertex
 	{
 		Vector3f  Pos;
@@ -31,6 +33,7 @@ protected:
 		float     U, V;
 	};
 
+	Vertex structure;
 	std::vector<Vertex>		Vertices;
 	std::vector<GLushort>	Indices;
 
@@ -42,7 +45,12 @@ public:
 	Matrix4f& GetMatrix();
 	void AllocateBuffers();
 	void FreeBuffers();
-	virtual void initScreen(float x, float y, float z, float width, float height, bool reversing = 0, bool curved = 0);
 	void setTexture(GLuint _texId, unsigned char *_texData, int _width, int _height);
-	void Render(Matrix4f view, Matrix4f proj);
+	virtual void Render(Matrix4f view, Matrix4f stillView, Matrix4f proj);
+
+	Vertex getStruct() { return structure; };
+	void RotationY(float diff);
+	void Translate(float x, float y, float z);
+	virtual void initScreen(float x, float y, float z, float width, float height) = 0;
+	void initScreen(float x, float y, float z, float width, float height, bool reversing, bool curved);
 };
