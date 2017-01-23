@@ -68,10 +68,7 @@ public:
 	void ReleaseDevice();
 };
 
-class Scene;
-
 // Global OpenGL state
 static OGL Platform;
-static Scene  *virtualScreen;
 static LRESULT CALLBACK WindowProc(_In_ HWND hWnd, _In_ UINT Msg, _In_ WPARAM wParam, _In_ LPARAM lParam);
 static void GLAPIENTRY DebugGLCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);

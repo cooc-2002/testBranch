@@ -16,10 +16,7 @@ videoScreen::~videoScreen()
 void videoScreen::initScreen(float x, float y, float z, float w, float h) {
 	int i, division = 100, index = 0;
 	float radian = w / z;
-
-	structure.Pos = Vector3f(x, y, z);
-	structure.U = w;
-	structure.V = h;
+	SetStruct(x, y, z, w, h);
 
 	Indices.push_back(index++);
 	Indices.push_back(index++);
@@ -33,10 +30,6 @@ void videoScreen::initScreen(float x, float y, float z, float w, float h) {
 		Indices.push_back(index++);
 		Indices.push_back(index);
 	}
-	Indices.push_back(0);
-	Indices.push_back(1);
-	Indices.push_back(--index);
-	Indices.push_back(++index);
 
 	float ts = 1.0 / division;
 	float rs = radian / division;
