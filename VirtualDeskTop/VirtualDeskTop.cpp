@@ -29,15 +29,14 @@ limitations under the License.
 #include "OVR_CAPI_GL.h"
 #include "OVR_Buffers.h"
 #include "Scene.h"
+#include "Model.h"
 
 #if defined(_WIN32)
 #include <dxgi.h> // for GetDefaultAdapterLuid
 #pragma comment(lib, "dxgi.lib")
 #endif
 
-
 using namespace OVR;
-
 
 static ovrGraphicsLuid GetDefaultAdapterLuid()
 {
@@ -80,7 +79,7 @@ static bool MainLoop(bool retryCreate)
 	DepthBuffer   * eyeDepthBuffer[2] = { nullptr, nullptr };
 	ovrMirrorTexture mirrorTexture = nullptr;
 	GLuint          mirrorFBO = 0;
-	Scene         * virtualScreen = nullptr;
+	virtualScreen = nullptr;
 	long long frameIndex = 0;
 
 	ovrSession session;
@@ -167,21 +166,11 @@ static bool MainLoop(bool retryCreate)
 		{
 			// Keyboard inputs to adjust player orientation
 			static float Yaw(3.141592f);
-			//if (Platform.Key[VK_LEFT])  Yaw += 0.02f;
-			//if (Platform.Key[VK_RIGHT]) Yaw -= 0.02f;
+			if (Platform.Key[VK_LEFT])  virtualScreen->RotationY(0.02f);
+			if (Platform.Key[VK_RIGHT]) virtualScreen->RotationY(-0.02f);
 
-			// Keyboard inputs to adjust player position
-			static Vector3f Pos2(0.0f, 0.0f, 0.0f);
-			//ovrTrackingState ts = ovr_GetTrackingState(session, ovr_GetTimeInSeconds(), ovrTrue);
-			//if (ts.StatusFlags & (ovrStatus_OrientationTracked | ovrStatus_PositionTracked))
-			//	Pos2 = ts.HeadPose.ThePose.Position;
-
-			if (Platform.Key['W'] || Platform.Key[VK_UP])     Pos2 += Matrix4f::RotationY(Yaw).Transform(Vector3f(0, -0.05f, 0));
-			if (Platform.Key['S'] || Platform.Key[VK_DOWN])   Pos2 += Matrix4f::RotationY(Yaw).Transform(Vector3f(0, +0.05f, 0));
-			if (Platform.Key['D'])                            Pos2 += Matrix4f::RotationY(Yaw).Transform(Vector3f(-0.05f, 0, 0));
-			if (Platform.Key['A'])                            Pos2 += Matrix4f::RotationY(Yaw).Transform(Vector3f(+0.05f, 0, 0));
-			if (Platform.Key['Q'])                            Pos2 += Matrix4f::RotationY(Yaw).Transform(Vector3f(0, 0, -0.05f));
-			if (Platform.Key['E'])                            Pos2 += Matrix4f::RotationY(Yaw).Transform(Vector3f(0, 0, +0.05f));
+			if (Platform.Key[VK_UP])     virtualScreen->Translate(0, +0.02f, 0);
+			if (Platform.Key[VK_DOWN])   virtualScreen->Translate(0, -0.02f, 0);
 
 			// Call ovr_GetRenderDesc each frame to get the ovrEyeRenderDesc, as the returned values (e.g. HmdToEyeOffset) may change at runtime.
 			ovrEyeRenderDesc eyeRenderDesc[2];
@@ -189,9 +178,8 @@ static bool MainLoop(bool retryCreate)
 			eyeRenderDesc[1] = ovr_GetRenderDesc(session, ovrEye_Right, hmdDesc.DefaultEyeFov[1]);
 
 			// Get eye poses, feeding in correct IPD offset
-			ovrPosef                  EyeRenderPose[2];
-			ovrVector3f               HmdToEyeOffset[2] = { eyeRenderDesc[0].HmdToEyeOffset,
-				eyeRenderDesc[1].HmdToEyeOffset };
+			ovrPosef	EyeRenderPose[2];
+			ovrVector3f	HmdToEyeOffset[2] = { eyeRenderDesc[0].HmdToEyeOffset, eyeRenderDesc[1].HmdToEyeOffset };
 
 			double sensorSampleTime;    // sensorSampleTime is fed into the layer later
 			ovr_GetEyePoses(session, frameIndex, ovrTrue, HmdToEyeOffset, EyeRenderPose, &sensorSampleTime);
@@ -208,13 +196,12 @@ static bool MainLoop(bool retryCreate)
 				
 				Vector3f finalUp = finalRollPitchYaw.Transform(Vector3f(0, 1, 0));
 				Vector3f finalForward = finalRollPitchYaw.Transform(Vector3f(0, 0, -1));
-				Vector3f shiftedEyePos = Pos2 + rollPitchYaw.Transform(EyeRenderPose[eye].Position);
-				
-				
+				Vector3f shiftedEyePos = rollPitchYaw.Transform(EyeRenderPose[eye].Position);
+								
 				Matrix4f stillRollPitchYaw = rollPitchYaw;
 				Vector3f stillUp = stillRollPitchYaw.Transform(Vector3f(0, 1, 0));
 				Vector3f stillForward = stillRollPitchYaw.Transform(Vector3f(0, 0, -1));
-				Vector3f stillShiftedEyePos = Pos2+rollPitchYaw.Transform(EyeRenderPose[eye].Position);;
+				Vector3f stillShiftedEyePos = rollPitchYaw.Transform(EyeRenderPose[eye].Position);;
 
 				Matrix4f view = Matrix4f::LookAtRH(shiftedEyePos, shiftedEyePos + finalForward, finalUp);
 				Matrix4f stillview = Matrix4f::LookAtRH(stillShiftedEyePos, shiftedEyePos + stillForward, stillUp);

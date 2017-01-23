@@ -2,11 +2,15 @@
 #include "OVR_Buffers.h"
 
 #define PI 3.14159265359
+
 Model::Model(){
 	Pos = Vector3f(0, 0, 0);
 	program = 0;
 	texId = 0;
 	width = 0; height = 0;
+	Yaw = 0;
+	vertexBuffer = NULL;
+	indexBuffer = NULL;
 }
 
 Model::Model(Vector3f pos, GLuint prog) :
@@ -17,6 +21,7 @@ Model::Model(Vector3f pos, GLuint prog) :
 	indexBuffer(nullptr),
 	program(prog)
 {
+	Yaw = 0;
 	texId = 0;
 	width = 0; height = 0;
 }
@@ -27,9 +32,19 @@ Model::~Model() {
 
 Matrix4f& Model::GetMatrix()
 {
-	Mat = Matrix4f(Rot);
+	Mat = Matrix4f::RotationY(Yaw);
 	Mat = Matrix4f::Translation(Pos) * Mat;
 	return Mat;
+}
+
+void Model::RotationY(float angle) {
+	Yaw += angle;
+}
+
+void Model::Translate(float x, float y, float z) {
+	Pos.x += x;
+	Pos.y += y;
+	Pos.z += z;
 }
 
 void Model::AllocateBuffers()
@@ -48,6 +63,10 @@ void Model::initScreen(float x, float y, float z, float w, float h, bool reversi
 {
 	int i, division = 100, index = 0;
 	float radian = w / z;
+
+	structure.Pos = Vector3f(x, y, z);
+	structure.U = w;
+	structure.V = h;
 
 	Indices.push_back(index++);
 	Indices.push_back(index++);
@@ -139,7 +158,7 @@ void Model::setTexture(GLuint _texId, unsigned char *_texData, int _width, int _
 	height = _height;
 }
 
-void Model::Render(Matrix4f view, Matrix4f proj)
+void Model::Render(Matrix4f view, Matrix4f stillView, Matrix4f proj)
 {
 	glBindTexture(GL_TEXTURE_2D, texId);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
