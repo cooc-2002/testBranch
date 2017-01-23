@@ -24,12 +24,11 @@ limitations under the License.
 /// is not that great!
 
 #include "OGL.h"
+#include "Scene.h"
 
 // Include the Oculus SDK
 #include "OVR_CAPI_GL.h"
 #include "OVR_Buffers.h"
-#include "Scene.h"
-#include "Model.h"
 
 #if defined(_WIN32)
 #include <dxgi.h> // for GetDefaultAdapterLuid
@@ -37,6 +36,7 @@ limitations under the License.
 #endif
 
 using namespace OVR;
+extern Scene *virtualScreen = NULL;
 
 static ovrGraphicsLuid GetDefaultAdapterLuid()
 {
@@ -79,7 +79,6 @@ static bool MainLoop(bool retryCreate)
 	DepthBuffer   * eyeDepthBuffer[2] = { nullptr, nullptr };
 	ovrMirrorTexture mirrorTexture = nullptr;
 	GLuint          mirrorFBO = 0;
-	virtualScreen = nullptr;
 	long long frameIndex = 0;
 
 	ovrSession session;
@@ -102,8 +101,7 @@ static bool MainLoop(bool retryCreate)
 		goto Done;
 
 	// Make eye render buffers
-	for (int eye = 0; eye < 2; ++eye)
-	{
+	for (int eye = 0; eye < 2; ++eye) {
 		ovrSizei idealTextureSize = ovr_GetFovTextureSize(session, ovrEyeType(eye), hmdDesc.DefaultEyeFov[eye], 1);
 		eyeRenderTexture[eye] = new TextureBuffer(session, true, true, idealTextureSize, 1, NULL, 1);
 		eyeDepthBuffer[eye] = new DepthBuffer(eyeRenderTexture[eye]->GetSize(), 0);
@@ -123,8 +121,7 @@ static bool MainLoop(bool retryCreate)
 
 	// Create mirror texture and an FBO used to copy mirror texture to back buffer
 	result = ovr_CreateMirrorTextureGL(session, &desc, &mirrorTexture);
-	if (!OVR_SUCCESS(result))
-	{
+	if (!OVR_SUCCESS(result)) {
 		if (retryCreate) goto Done;
 		VALIDATE(false, "Failed to create mirror texture.");
 	}
@@ -166,11 +163,10 @@ static bool MainLoop(bool retryCreate)
 		{
 			// Keyboard inputs to adjust player orientation
 			static float Yaw(3.141592f);
-			if (Platform.Key[VK_LEFT])  virtualScreen->RotationY(0.02f);
-			if (Platform.Key[VK_RIGHT]) virtualScreen->RotationY(-0.02f);
-
-			if (Platform.Key[VK_UP])     virtualScreen->Translate(0, +0.02f, 0);
-			if (Platform.Key[VK_DOWN])   virtualScreen->Translate(0, -0.02f, 0);
+			//if (Platform.Key[VK_LEFT])  virtualScreen->RotationY(0.02f);
+			//if (Platform.Key[VK_RIGHT]) virtualScreen->RotationY(-0.02f);
+			//if (Platform.Key[VK_UP])    virtualScreen->Translate(0, +0.02f, 0);
+			//if (Platform.Key[VK_DOWN])  virtualScreen->Translate(0, -0.02f, 0);
 
 			// Call ovr_GetRenderDesc each frame to get the ovrEyeRenderDesc, as the returned values (e.g. HmdToEyeOffset) may change at runtime.
 			ovrEyeRenderDesc eyeRenderDesc[2];

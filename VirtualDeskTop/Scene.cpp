@@ -45,6 +45,11 @@ Scene::~Scene(){
 
 void Scene::Render(Matrix4f stillview, Matrix4f view, Matrix4f proj){
 	screenCopy->ScreenUpdate();
+	if (swapScreen == 1)
+		NextScreen();
+	if (swapScreen == 2)
+		PrevScreen();
+
 	for (int i = 0; i < Models.size(); ++i)
 		if (i == 0)
 			Models[i]->Render(view, stillview, proj);
@@ -90,7 +95,7 @@ void Scene::Init()
 	m->AllocateBuffers();
 	Models.push_back(m);
 
-	SelectedScreen *pM = new SelectedScreen(Vector3f(0, 0, 0), program);
+	pM = new SelectedScreen(Vector3f(0, 0, 0), program);
 	m = pM;
 	Models.push_back(m);
 
@@ -106,17 +111,43 @@ void Scene::Init()
 		Models.push_back(m);
 	}
 
-	sM = Models[2];
-	pM->initScreen(sM);
+	sM = Models.begin()+2;
+	pM->initScreen(Models[3]);
 	pM->AllocateBuffers();
 }
 
+void Scene::NextScreen() {
+	swapScreen = 0;
+	if (sM < Models.end() - 1) {
+		sM++;
+		pM->initScreen(Models[3]);
+		pM->AllocateBuffers();
+	}
+}
+
+void Scene::PrevScreen() {
+	swapScreen = 0;
+	if (sM > Models.begin() + 2) {
+		sM--;
+		pM->initScreen(Models[2]);
+		pM->AllocateBuffers();
+	}
+}
+
+void Scene::SetNextScreen() {
+	swapScreen = 1;
+}
+
+void Scene::SetPrevScreen() {
+	swapScreen = 2;
+}
+
 void Scene::RotationY(float diff) {
-	sM->RotationY(diff);
+	(*sM)->RotationY(diff);
 }
 
 void Scene::Translate(float x, float y, float z) {
-	sM->Translate(x, y, z);
+	(*sM)->Translate(x, y, z);
 }
 
 int Scene::InitCams() {

@@ -47,6 +47,14 @@ void Model::Translate(float x, float y, float z) {
 	Pos.z += z;
 }
 
+void Model::SetStruct(float x, float y, float z, float w, float h) {
+	structure.Pos.x = x;
+	structure.Pos.y = y;
+	structure.Pos.z = z;
+	structure.U = w;
+	structure.V = h;
+}
+
 void Model::AllocateBuffers()
 {
 	vertexBuffer = new VertexBuffer(&(Vertices[0]), Vertices.size() * sizeof(Vertices[0]));
@@ -55,8 +63,8 @@ void Model::AllocateBuffers()
 
 void Model::FreeBuffers()
 {
-	delete vertexBuffer; vertexBuffer = nullptr;
-	delete indexBuffer; indexBuffer = nullptr;
+	if (vertexBuffer != NULL) delete vertexBuffer; vertexBuffer = nullptr;
+	if (indexBuffer != NULL) delete indexBuffer; indexBuffer = nullptr;
 }
 
 void Model::initScreen(float x, float y, float z, float w, float h, bool reversing, bool curved)
@@ -64,9 +72,7 @@ void Model::initScreen(float x, float y, float z, float w, float h, bool reversi
 	int i, division = 100, index = 0;
 	float radian = w / z;
 
-	structure.Pos = Vector3f(x, y, z);
-	structure.U = w;
-	structure.V = h;
+	SetStruct(x, y, z, w, h);
 
 	Indices.push_back(index++);
 	Indices.push_back(index++);

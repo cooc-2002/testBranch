@@ -16,10 +16,7 @@ BackgroundScreen::~BackgroundScreen()
 void BackgroundScreen::initScreen(float x, float y, float z, float w, float h){
 	int i, division = 100, index = 0;
 	float radian = w / z;
-
-	structure.Pos = Vector3f(x, y, z);
-	structure.U = w;
-	structure.V = h;
+	SetStruct(x, y, z, w, h);
 
 	Indices.push_back(index++);
 	Indices.push_back(index++);

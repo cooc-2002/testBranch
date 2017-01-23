@@ -2,6 +2,8 @@
 #include <thread>
 #include "Scene.h"
 
+extern Scene *virtualScreen;
+
 static LRESULT CALLBACK WindowProc(_In_ HWND hWnd, _In_ UINT Msg, _In_ WPARAM wParam, _In_ LPARAM lParam)
 {
 	OGL *p = reinterpret_cast<OGL *>(GetWindowLongPtr(hWnd, 0));
@@ -46,11 +48,37 @@ OGL::OGL() :
 void OGL::hotKeyControl() {
 	MSG msg = { 0 };
 	RegisterHotKey(NULL, 1, MOD_CONTROL | MOD_NOREPEAT, 0x51);
+	RegisterHotKey(NULL, 2, NULL, VK_LEFT);
+	RegisterHotKey(NULL, 3, NULL, VK_RIGHT);
+	RegisterHotKey(NULL, 4, NULL, VK_UP);
+	RegisterHotKey(NULL, 5, NULL, VK_DOWN);
+	RegisterHotKey(NULL, 6, MOD_CONTROL, VK_LEFT);
+	RegisterHotKey(NULL, 7, MOD_CONTROL, VK_RIGHT);
 	while (GetMessage(&msg, NULL, 0, 0) != 0) {
 		if (msg.message == WM_HOTKEY) {
-			OGL *p = reinterpret_cast<OGL *>(GetWindowLongPtr(Window, 0));
-			p->Running = false;
-			break;
+			switch (msg.wParam) {
+			case 1:
+				this->Running = false;
+				break;
+			case 2:
+				virtualScreen->RotationY(0.02f);
+				break;
+			case 3:
+				virtualScreen->RotationY(-0.02f);
+				break;
+			case 4:
+				virtualScreen->Translate(0, +0.02f, 0);
+				break;
+			case 5:
+				virtualScreen->Translate(0, -0.02f, 0);
+				break;
+			case 6:
+				virtualScreen->SetPrevScreen();
+				break;
+			case 7:
+				virtualScreen->SetNextScreen();
+				break;
+			}
 		}
 	}
 }
