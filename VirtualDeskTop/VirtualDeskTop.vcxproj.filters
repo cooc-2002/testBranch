@@ -45,6 +45,9 @@
     <ClCompile Include="SelectedScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SeeThroughScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\OVR\Src\GL\CAPI_GLE.h">
@@ -75,6 +78,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SelectedScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SeeThroughScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

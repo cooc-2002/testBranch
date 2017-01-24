@@ -1,17 +1,11 @@
 #include "videoScreen.h"
 #define PI 3.14159265359
 
-videoScreen::videoScreen()
-{
-}
+videoScreen::videoScreen(){}
 
-videoScreen::videoScreen(Vector3f pos, GLuint prog) : Model(pos, prog)
-{
-}
+videoScreen::videoScreen(Vector3f pos, GLuint prog) : Model(pos, prog){}
 
-videoScreen::~videoScreen()
-{
-}
+videoScreen::~videoScreen(){}
 
 void videoScreen::initScreen(float x, float y, float z, float w, float h) {
 	int i, division = 100, index = 0;
