@@ -4,6 +4,7 @@
 #include "videoScreen.h"
 #include "BackgroundScreen.h"
 #include "SelectedScreen.h"
+#include "SeeThroughScreen.h"
 
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
@@ -89,8 +90,13 @@ void Scene::Init()
 	glGenTextures(1, &screenTexId);
 
 	Model *m;
-	m = new BackgroundScreen(Vector3f(0, 0, 0), program);  // See through screen
-	m->setTexture(screenTexId, screenCopy->screenData, screenCopy->width, screenCopy->height);
+	unsigned char *texData;
+	texData = (vd[0].getRawImageOut())->getpPixels();
+
+	m = new SeeThroughScreen(Vector3f(0, 0, 0), program);
+	//m = new BackgroundScreen(Vector3f(0, 0, 0), program);  // See through screen
+	m->setTexture(texId[0], texData, vd[0].getWidth(), vd[0].getHeight());
+	//m->setTexture(screenTexId, screenCopy->screenData, screenCopy->width, screenCopy->height);
 	m->initScreen(-192.0f / 2.0f, -120.0f / 2.0f, 80.0f, 192.0f, 120.0f);
 	m->AllocateBuffers();
 	Models.push_back(m);
@@ -100,19 +106,42 @@ void Scene::Init()
 	Models.push_back(m);
 
 	float initPoint = PI/2.0f;
-	unsigned char *texData;
 
 	for (int i = 0; i < numCam; i++) {
-		texData = (vd[i].getRawImageOut())->getpPixels();
-		m = new videoScreen(Vector3f(0, 0, 0), program);
-		m->setTexture(texId[i], texData, vd[i].getWidth(), vd[i].getHeight());
-		m->initScreen(initPoint + i*PI/4.0f, 0.5f, 1.0f, 0.64f, 0.48f);
+		//texData = (vd[i].getRawImageOut())->getpPixels();
+		m = new BackgroundScreen(Vector3f(0, 0, 0), program);  // See through screen
+		//m = new videoScreen(Vector3f(0, 0, 0), program);
+		m->setTexture(screenTexId, screenCopy->screenData, screenCopy->width, screenCopy->height);
+		//m->setTexture(texId[i], texData, vd[i].getWidth(), vd[i].getHeight());
+		m->initScreen(initPoint + i*0.64f*1.5f, 0.5f, 1.0f, 0.64f, 0.48f);
 		m->AllocateBuffers();
 		Models.push_back(m);
 	}
 
+	//m = new SeeThroughScreen(Vector3f(0, 0, 0), program);
+	//m = new BackgroundScreen(Vector3f(0, 0, 0), program);  // See through screen
+	//m->setTexture(screenTexId, screenCopy->screenData, screenCopy->width, screenCopy->height);
+	//m->initScreen((PI + 192.0f/80.0f)/2.0f, -120.0f / 2.0f, 80.0f, 192.0f, 120.0f);
+	//m->AllocateBuffers();
+	//Models.push_back(m);
+
+	//pM = new SelectedScreen(Vector3f(0, 0, 0), program);
+	//m = pM;
+	//Models.push_back(m);
+
+	//float initPoint = PI / 2.0f;
+
+	//for (int i = 0; i < numCam; i++) {
+	//	texData = (vd[i].getRawImageOut())->getpPixels();
+	//	m = new videoScreen(Vector3f(0, 0, 0), program);
+	//	m->setTexture(texId[i], texData, vd[i].getWidth(), vd[i].getHeight());
+	//	m->initScreen(initPoint + i*PI / 4.0f, 0.5f, 1.0f, 0.64f, 0.48f);
+	//	m->AllocateBuffers();
+	//	Models.push_back(m);
+	//}
+
 	sM = Models.begin()+2;
-	pM->initScreen(Models[3]);
+	pM->initScreen(*sM);
 	pM->AllocateBuffers();
 }
 

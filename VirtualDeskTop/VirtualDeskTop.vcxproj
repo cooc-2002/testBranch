@@ -190,6 +190,7 @@
     <ClCompile Include="OGL.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ScreenCopy.cpp" />
+    <ClCompile Include="SeeThroughScreen.cpp" />
     <ClCompile Include="SelectedScreen.cpp" />
     <ClCompile Include="videoScreen.cpp" />
     <ClCompile Include="VirtualDeskTop.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ScreenCopy.h" />
     <ClInclude Include="OGL.h" />
+    <ClInclude Include="SeeThroughScreen.h" />
     <ClInclude Include="SelectedScreen.h" />
     <ClInclude Include="videoScreen.h" />
   </ItemGroup>

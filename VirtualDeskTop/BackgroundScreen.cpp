@@ -1,17 +1,11 @@
 #include "BackgroundScreen.h"
 #define PI 3.14159265359
 
-BackgroundScreen::BackgroundScreen()
-{
-}
+BackgroundScreen::BackgroundScreen(){}
 
-BackgroundScreen::BackgroundScreen(Vector3f pos, GLuint prog) : Model(pos, prog)
-{
-}
+BackgroundScreen::BackgroundScreen(Vector3f pos, GLuint prog) : Model(pos, prog){}
 
-BackgroundScreen::~BackgroundScreen()
-{
-}
+BackgroundScreen::~BackgroundScreen(){}
 
 void BackgroundScreen::initScreen(float x, float y, float z, float w, float h){
 	int i, division = 100, index = 0;
@@ -33,8 +27,8 @@ void BackgroundScreen::initScreen(float x, float y, float z, float w, float h){
 
 	float ts = 1.0 / division;
 	float rs = radian / division;
-	float ir = (PI + radian) / 2.0f;
-	//float ir = acos(x / z);
+	//float ir = (PI + radian) / 2.0f;
+	float ir = x;
 
 	// Generate a quad for each box face
 	Vertex temp;
