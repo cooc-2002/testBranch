@@ -12,7 +12,7 @@ struct IndexBuffer;
 class Model
 {
 private:
-	float			Yaw;
+	float			Yaw, scale;
 	Vector3f        Pos;
 	Quatf           Rot;
 	Matrix4f        Mat;
@@ -51,6 +51,7 @@ public:
 	Vertex getStruct() { return structure; };
 	void SetStruct(float x, float y, float z, float w, float h);
 	void RotationY(float diff);
+	void setScale(float _scale);
 	void Translate(float x, float y, float z);
 	virtual void initScreen(float x, float y, float z, float width, float height) = 0;
 	void initScreen(float x, float y, float z, float width, float height, bool reversing, bool curved);

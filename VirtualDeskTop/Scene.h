@@ -19,13 +19,16 @@ typedef unsigned int UINT32;
 class Scene
 {
 private:
+	float scale;
 	int swapScreen;
+	unsigned char *bgImg;
+	unsigned int width, height;
 	SelectedScreen *pM;
 	std::vector<Model*>	Models;
 	std::vector<Model*>::iterator sM;
 
 	GLuint	*texId;
-	GLuint	program;
+	GLuint	program[2];
 	UINT32	numCam;
 	IMFActivate		**ppDevices;
 	videoDevice		*vd; 
@@ -47,7 +50,10 @@ public:
 	void SetPrevScreen();
 	void RotationY(float diff);
 	void Translate(float x, float y, float z);
+	void ZoomIn();
+	void ZoomOut();
 
 	int InitCams();
+	void SetCamImage(unsigned char *img, unsigned int width, unsigned int height);
 	int OpenCamera(videoDevice *vd, IMFActivate * pActivate, unsigned int Id);
 };

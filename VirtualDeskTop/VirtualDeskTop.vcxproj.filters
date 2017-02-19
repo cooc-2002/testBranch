@@ -48,6 +48,9 @@
     <ClCompile Include="SeeThroughScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Gesture.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\OVR\Src\GL\CAPI_GLE.h">
@@ -81,6 +84,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SeeThroughScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_func.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gesture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hand_model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

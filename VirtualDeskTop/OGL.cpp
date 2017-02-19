@@ -54,6 +54,8 @@ void OGL::hotKeyControl() {
 	RegisterHotKey(NULL, 5, NULL, VK_DOWN);
 	RegisterHotKey(NULL, 6, MOD_CONTROL, VK_LEFT);
 	RegisterHotKey(NULL, 7, MOD_CONTROL, VK_RIGHT);
+	RegisterHotKey(NULL, 8, NULL, VK_ADD);
+	RegisterHotKey(NULL, 9, NULL, VK_SUBTRACT);
 	while (GetMessage(&msg, NULL, 0, 0) != 0) {
 		if (msg.message == WM_HOTKEY) {
 			switch (msg.wParam) {
@@ -77,6 +79,12 @@ void OGL::hotKeyControl() {
 				break;
 			case 7:
 				virtualScreen->SetNextScreen();
+				break;
+			case 8:
+				virtualScreen->ZoomIn();
+				break;
+			case 9:
+				virtualScreen->ZoomOut();
 				break;
 			}
 		}

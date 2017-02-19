@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>opencv_core310.lib;opencv_highgui310.lib;opencv_imgproc310.lib;opencv_imgcodecs310.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_core310.lib;opencv_highgui310.lib;opencv_imgproc310.lib;opencv_imgcodecs310.lib;opencv_video310.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />

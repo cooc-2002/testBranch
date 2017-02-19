@@ -1,5 +1,3 @@
-d:\codes\testbranch\virtualdesktop\debug\ogl.obj
-d:\codes\testbranch\virtualdesktop\debug\virtualdesktop.obj
 d:\codes\testbranch\virtualdesktop\debug\backgroundscreen.obj
 d:\codes\testbranch\virtualdesktop\debug\scene.obj
 d:\codes\testbranch\virtualdesktop\debug\capi_gle.obj
@@ -7,7 +5,9 @@ d:\codes\testbranch\virtualdesktop\debug\selectedscreen.obj
 d:\codes\testbranch\virtualdesktop\debug\model.obj
 d:\codes\testbranch\virtualdesktop\debug\screencopy.obj
 d:\codes\testbranch\virtualdesktop\debug\videoscreen.obj
+d:\codes\testbranch\virtualdesktop\debug\ogl.obj
 d:\codes\testbranch\virtualdesktop\debug\seethroughscreen.obj
+d:\codes\testbranch\virtualdesktop\debug\virtualdesktop.obj
 d:\codes\testbranch\debug\virtualdesktop.ilk
 d:\codes\testbranch\debug\virtualdesktop.exe
 d:\codes\testbranch\debug\virtualdesktop.pdb
