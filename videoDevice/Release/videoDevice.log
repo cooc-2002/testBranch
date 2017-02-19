@@ -1,1 +1,36 @@
-﻿
+﻿  DebugPrintOut.cpp
+  FormatReader.cpp
+  ImageGrabber.cpp
+ImageGrabber.cpp(412): warning C4838: 'DWORD'에서 'int'(으)로의 변환에는 축소 변환이 필요합니다.
+  ImageGrabberThread.cpp
+  Media_Foundation.cpp
+  RawImage.cpp
+  videoDevice.cpp
+videoDevice.cpp(437): warning C4244: '=': 'const UINT64'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+videoDevice.cpp(454): warning C4244: '=': 'const UINT64'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+videoDevice.cpp(745): warning C4503: 'std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Insert_hint': 데코레이팅된 이름 길이를 초과했으므로 이름이 잘립니다.
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Pr=std::less<UINT64>,
+              _Alloc=std::allocator<std::pair<const UINT64,FrameRateMap>>
+          ]
+videoDevice.cpp(745): warning C4503: 'std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Insert_at': 데코레이팅된 이름 길이를 초과했으므로 이름이 잘립니다.
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Pr=std::less<UINT64>,
+              _Alloc=std::allocator<std::pair<const UINT64,FrameRateMap>>
+          ]
+videoDevice.cpp(745): warning C4503: 'std::_Tree<std::_Tmap_traits<_Kty,_Ty,_Pr,_Alloc,false>>::_Insert_nohint': 데코레이팅된 이름 길이를 초과했으므로 이름이 잘립니다.
+          with
+          [
+              _Kty=UINT64,
+              _Ty=FrameRateMap,
+              _Pr=std::less<UINT64>,
+              _Alloc=std::allocator<std::pair<const UINT64,FrameRateMap>>
+          ]
+  videoInput.cpp
+  videoDevice.vcxproj -> D:\Codes\testBranch\lib\Win32\Release\videoDevice.lib

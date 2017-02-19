@@ -98,12 +98,12 @@
       <SDLCheck>
       </SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)Include;$(SolutionDir)Include\OVR;$(SolutionDir)Include\OVR\Src;$(SolutionDir)Include\opencv;$(SolutionDir)Include\opencv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <TreatWarningAsError>false</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -187,6 +187,7 @@
     <ClCompile Include="..\include\OVR\Src\GL\CAPI_GLE.cpp" />
     <ClCompile Include="BackgroundScreen.cpp" />
     <ClCompile Include="Gesture.cc" />
+    <ClCompile Include="GestureRec.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="OGL.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="BackgroundScreen.h" />
     <ClInclude Include="basic_func.h" />
     <ClInclude Include="Gesture.h" />
+    <ClInclude Include="GestureRec.h" />
     <ClInclude Include="hand_model.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="OVR_Buffers.h" />

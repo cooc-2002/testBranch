@@ -30,7 +30,9 @@ limitations under the License.
 #include "OVR_CAPI_GL.h"
 #include "OVR_Buffers.h"
 #include "ovrvision_pro.h"	//Ovrvision SDK
-
+#include "opencv2/core.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/imgproc.hpp"
 
 #if defined(_WIN32)
 #include <dxgi.h> // for GetDefaultAdapterLuid
@@ -131,7 +133,7 @@ static bool MainLoop(bool retryCreate)
 	// Configure the mirror read buffer
 	GLuint texId;
 	ovr_GetMirrorTextureBufferGL(session, mirrorTexture, &texId);
-	
+
 	glGenFramebuffers(1, &mirrorFBO);
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, mirrorFBO);
 	glFramebufferTexture2D(GL_READ_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texId, 0);
@@ -147,7 +149,7 @@ static bool MainLoop(bool retryCreate)
 	// FloorLevel will give tracking poses where the floor height is 0
 	ovr_SetTrackingOriginType(session, ovrTrackingOrigin_FloorLevel);
 	ovr_RecenterTrackingOrigin(session);
-	
+
 	//OVR Vision
 	OVR::OvrvisionPro* pOvrvision = new OVR::OvrvisionPro();
 
@@ -156,8 +158,12 @@ static bool MainLoop(bool retryCreate)
 	//OVR::Camprop cameraMode = OVR::OV_CAMVR_VGA;
 	if (pOvrvision->Open(locationID, cameraMode) == 0)
 		printf("Ovrvision Pro Open Error!\nPlease check whether OvrvisionPro is connected.\n");
-	else 
+	else
 		pOvrvision->SetCameraSyncMode(false);
+
+	int width = pOvrvision->GetCamWidth();
+	int height = pOvrvision->GetCamHeight();
+	unsigned char *img;
 
 	// Main loop
 	while (Platform.HandleMessages())
@@ -222,9 +228,10 @@ static bool MainLoop(bool retryCreate)
 
 				//Camera View
 				if (eye == 0)
-					virtualScreen->SetCamImage(pOvrvision->GetCamImageBGRA(OVR::Cameye::OV_CAMEYE_LEFT), pOvrvision->GetCamWidth(), pOvrvision->GetCamHeight());
+					img = pOvrvision->GetCamImageBGRA(OVR::Cameye::OV_CAMEYE_LEFT);
 				else
-					virtualScreen->SetCamImage(pOvrvision->GetCamImageBGRA(OVR::Cameye::OV_CAMEYE_RIGHT), pOvrvision->GetCamWidth(), pOvrvision->GetCamHeight());
+					img = pOvrvision->GetCamImageBGRA(OVR::Cameye::OV_CAMEYE_RIGHT);
+				virtualScreen->SetCamImage(img, width, height);
 
 				// Render world
 				virtualScreen->Render(stillview, view, proj);

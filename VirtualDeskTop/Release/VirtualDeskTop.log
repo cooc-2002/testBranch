@@ -1,1 +1,7 @@
-﻿
+﻿  VirtualDeskTop.cpp
+VirtualDeskTop.cpp(162): warning C4189: 'width': 지역 변수가 초기화되었으나 참조되지 않았습니다.
+VirtualDeskTop.cpp(163): warning C4189: 'hight': 지역 변수가 초기화되었으나 참조되지 않았습니다.
+  코드를 생성하고 있습니다.
+  코드를 생성했습니다.
+  VirtualDeskTop.vcxproj -> D:\Codes\testBranch\Release\VirtualDeskTop.exe
+  VirtualDeskTop.vcxproj -> D:\Codes\testBranch\Release\VirtualDeskTop.pdb (Full PDB)
