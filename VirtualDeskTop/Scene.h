@@ -31,8 +31,8 @@ private:
 	GLuint	program[2];
 	UINT32	numCam;
 	IMFActivate		**ppDevices;
-	videoDevice		*vd; 
 	ScreenCopy		*screenCopy;
+	std::vector<videoDevice*>	vd;
 
 public:
 	Scene();

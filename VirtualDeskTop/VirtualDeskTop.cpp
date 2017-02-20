@@ -201,8 +201,8 @@ static bool MainLoop(bool retryCreate)
 			double sensorSampleTime;    // sensorSampleTime is fed into the layer later
 			ovr_GetEyePoses(session, frameIndex, ovrTrue, HmdToEyeOffset, EyeRenderPose, &sensorSampleTime);
 
-			//pOvrvision->PreStoreCamData(OVR::Camqt::OV_CAMQT_DMS);
-			pOvrvision->PreStoreCamData(OVR::Camqt::OV_CAMQT_DMSRMP);
+			pOvrvision->PreStoreCamData(OVR::Camqt::OV_CAMQT_DMS);
+			//pOvrvision->PreStoreCamData(OVR::Camqt::OV_CAMQT_DMSRMP);
 
 			// Render Scene to Eye Buffers
 			for (int eye = 0; eye < 2; ++eye)

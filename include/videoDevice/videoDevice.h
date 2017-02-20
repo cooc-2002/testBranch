@@ -34,6 +34,7 @@ class videoDevice
 
 public:
 	videoDevice(void);
+
 	~videoDevice(void);
 
 	void closeDevice();

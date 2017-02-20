@@ -47,7 +47,7 @@ void Scene::Release(){
 
 Scene::~Scene(){
 	if(screenCopy != NULL) delete screenCopy;
-	if (vd != NULL) delete [] vd;
+	vd.clear();
 
 	Release();
 }
@@ -60,7 +60,7 @@ void Scene::Render(Matrix4f stillview, Matrix4f view, Matrix4f proj){
 		PrevScreen();
 
 	for (int i = 0; i < Models.size(); ++i)
-		Models[i]->Render(view * Matrix4f::Translation(Vector3f(0, 0, scale)), stillview, proj);
+		Models[i]->Render(view, stillview, proj);
 }
 
 GLuint Scene::CreateShader(GLenum type, const GLchar* src){
@@ -110,38 +110,38 @@ void Scene::Init()
 	m = pM;
 	Models.push_back(m);
 
-	float initPoint = 0.0f;
+	float initPoint = 3.141592f/2.0f;
 
-	numCam = 8;
-	for (int i = 0; i < numCam; i++) {
-		//texData = (vd[i].getRawImageOut())->getpPixels();
-		m = new BackgroundScreen(Vector3f(0, 0, -10), program[1]);  // See through screen
-		//m = new videoScreen(Vector3f(0, 0, -5), program);
-		m->setTexture(screenTexId, screenCopy->screenData, screenCopy->width, screenCopy->height);
-		//m->setTexture(texId[i], texData, vd[i].getWidth(), vd[i].getHeight());
-		m->initScreen(initPoint + i*6.4f/10.0f, -2.0f, 15.0f, 6.4f*1.5, 4.8f*1.5);
+	for (int i = 0; i < vd.capacity(); i++) {
+		texData = (vd[i]->getRawImageOut())->getpPixels();
+		//m = new BackgroundScreen(Vector3f(0, 0, -10), program[1]);  // See through screen
+		m = new videoScreen(Vector3f(0, 0, -14.5), program[1]);
+		//m->setTexture(screenTexId, screenCopy->screenData, screenCopy->width, screenCopy->height);
+		m->setTexture(texId[i], texData, vd[i]->getWidth(), vd[i]->getHeight());
+		m->initScreen(initPoint + i*0.64f/15.0f, 1.0f, 15.0f, 0.64f, 0.48f);
 		m->AllocateBuffers();
 		Models.push_back(m);
 	}
 
 	////m = new SeeThroughScreen(Vector3f(0, 0, 0), program);
-	//m = new BackgroundScreen(Vector3f(0, 0, 0), program);  // See through screen
+	//m = new BackgroundScreen(Vector3f(0, 0, 0), program[0]);  // See through screen
 	//m->setTexture(screenTexId, screenCopy->screenData, screenCopy->width, screenCopy->height);
-	//m->initScreen((PI + 192.0f/80.0f)/2.0f, -120.0f / 2.0f, 80.0f, 192.0f, 120.0f);
+	//m->initScreen(-96.0f / 2.0f, -60.0f / 2.0f, 40.0f, 96.0f, 60.0f);
 	//m->AllocateBuffers();
 	//Models.push_back(m);
 
-	//pM = new SelectedScreen(Vector3f(0, 0, 0), program);
+	//pM = new SelectedScreen(Vector3f(0, 0, 0), program[0]);
 	//m = pM;
 	//Models.push_back(m);
 
 	//float initPoint = PI / 2.0f;
 
-	//for (int i = 0; i < numCam; i++) {
+	//for (int i = 1; i < numCam; i++) {
 	//	texData = (vd[i].getRawImageOut())->getpPixels();
-	//	m = new videoScreen(Vector3f(0, 0, 0), program);
+	//	m = new videoScreen(Vector3f(0, 0, 0), program[1]);
 	//	m->setTexture(texId[i], texData, vd[i].getWidth(), vd[i].getHeight());
-	//	m->initScreen(initPoint + i*PI / 4.0f, 0.5f, 1.0f, 0.64f, 0.48f);
+	//	m->initScreen(initPoint + i*6.4f/10.0f, -2.0f, 15.0f, 6.4f*1.5, 4.8f*1.5);
+	//	//m->initScreen(initPoint + i*PI / 4.0f, 0.5f, 1.0f, 0.64f, 0.48f);
 	//	m->AllocateBuffers();
 	//	Models.push_back(m);
 	//}
@@ -203,15 +203,23 @@ int Scene::InitCams() {
 	if (SUCCEEDED(hr))
 		hr = pAttributes->SetGUID(MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE, MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE_VIDCAP_GUID);
 	hr = MFEnumDeviceSources(pAttributes, &ppDevices, &numCam);
+
+	wchar_t *name;
 	
-	vd = new videoDevice[numCam];
+	vd.clear();
 	texId = new GLuint [numCam];
-	//for (i = 0; i < numCam; i++)
-		//OpenCamera(vd+i, ppDevices[i], i);
+	videoDevice *temp;
+	for (i = 0; i < numCam; i++) {
+		ppDevices[i]->GetAllocatedString(MF_DEVSOURCE_ATTRIBUTE_FRIENDLY_NAME, &name, NULL);
+		if (wcscmp(name, L"OvrvisionPro")) {
+			temp = new videoDevice;
+			OpenCamera(temp, ppDevices[i], i);
+			vd.push_back(temp);
+		}
+		CoTaskMemFree(name);
+	}
 	glGenTextures(numCam, texId);
 
-	//for test
-	//numCam = 4;
 	return numCam;
 }
 

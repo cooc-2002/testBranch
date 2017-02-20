@@ -27,7 +27,6 @@ void BackgroundScreen::initScreen(float x, float y, float z, float w, float h){
 
 	float ts = 1.0 / division;
 	float rs = radian / division;
-	//float ir = (PI + radian) / 2.0f;
 	float ir = x;
 
 	// Generate a quad for each box face
