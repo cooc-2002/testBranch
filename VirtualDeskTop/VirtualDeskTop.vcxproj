@@ -101,7 +101,7 @@
       <TreatWarningAsError>false</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <DisableLanguageExtensions>false</DisableLanguageExtensions>
     </ClCompile>
@@ -146,7 +146,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
@@ -187,6 +187,7 @@
     <ClCompile Include="..\include\OVR\Src\GL\CAPI_GLE.cpp" />
     <ClCompile Include="BackgroundScreen.cpp" />
     <ClCompile Include="Gesture.cc" />
+    <ClCompile Include="GestureByKim.cpp" />
     <ClCompile Include="GestureRec.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="OGL.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="BackgroundScreen.h" />
     <ClInclude Include="basic_func.h" />
     <ClInclude Include="Gesture.h" />
+    <ClInclude Include="GestureByKim.h" />
     <ClInclude Include="GestureRec.h" />
     <ClInclude Include="hand_model.h" />
     <ClInclude Include="Model.h" />

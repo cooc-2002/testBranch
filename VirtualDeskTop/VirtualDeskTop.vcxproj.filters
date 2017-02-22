@@ -54,6 +54,9 @@
     <ClCompile Include="GestureRec.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GestureByKim.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\OVR\Src\GL\CAPI_GLE.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GestureRec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GestureByKim.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

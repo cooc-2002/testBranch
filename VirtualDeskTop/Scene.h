@@ -30,8 +30,8 @@ private:
 	GLuint	*texId;
 	GLuint	program[2];
 	UINT32	numCam;
+	ScreenCopy		*screenCopy;	
 	IMFActivate		**ppDevices;
-	ScreenCopy		*screenCopy;
 	std::vector<videoDevice*>	vd;
 
 public:

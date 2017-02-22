@@ -30,9 +30,7 @@ limitations under the License.
 #include "OVR_CAPI_GL.h"
 #include "OVR_Buffers.h"
 #include "ovrvision_pro.h"	//Ovrvision SDK
-#include "opencv2/core.hpp"
-#include "opencv2/highgui.hpp"
-#include "opencv2/imgproc.hpp"
+#include "GestureByKim.h"
 
 #if defined(_WIN32)
 #include <dxgi.h> // for GetDefaultAdapterLuid
@@ -160,6 +158,10 @@ static bool MainLoop(bool retryCreate)
 		printf("Ovrvision Pro Open Error!\nPlease check whether OvrvisionPro is connected.\n");
 	else
 		pOvrvision->SetCameraSyncMode(false);
+	
+	GestureByKim *pGesture = new GestureByKim();
+	unsigned char type;
+	float Zoom, x, y;
 
 	int width = pOvrvision->GetCamWidth();
 	int height = pOvrvision->GetCamHeight();
@@ -227,10 +229,17 @@ static bool MainLoop(bool retryCreate)
 				Matrix4f proj = ovrMatrix4f_Projection(hmdDesc.DefaultEyeFov[eye], 0.2f, 1000.0f, ovrProjection_None);
 
 				//Camera View
-				if (eye == 0)
+				if (eye == 0) {
 					img = pOvrvision->GetCamImageBGRA(OVR::Cameye::OV_CAMEYE_LEFT);
-				else
+					pGesture->setImg(img, width, height);
+					pGesture->getGesture(type, Zoom, x, y);
+				}
+				else {
 					img = pOvrvision->GetCamImageBGRA(OVR::Cameye::OV_CAMEYE_RIGHT);
+					//pGesture->setImg(img, width, height);
+					//pGesture->getGesture(type, Zoom, x, y);
+				}
+
 				virtualScreen->SetCamImage(img, width, height);
 
 				// Render world

@@ -102,49 +102,26 @@ void Scene::Init()
 	//m->setTexture(texId[0], texData, vd[0].getWidth(), vd[0].getHeight());
 	//m->setTexture(texId[0], bgImg, width, height);
 	//m->setTexture(screenTexId, screenCopy->screenData, screenCopy->width, screenCopy->height);
-	m->initScreen(-96.0f / 2.0f, -60.0f / 2.0f, 40.0f, 96.0f, 60.0f);
+	m->initScreen(-96.0f / 2.0f, -95.0f / 2.0f, 40.0f, 96.0f, 95.0f);
 	m->AllocateBuffers();
 	Models.push_back(m);
 
-	pM = new SelectedScreen(Vector3f(0, 0, 0), program[0]);
+	pM = new SelectedScreen(Vector3f(0, 0, 0), program[1]);
 	m = pM;
 	Models.push_back(m);
 
 	float initPoint = 3.141592f/2.0f;
 
-	for (int i = 0; i < vd.capacity(); i++) {
+	for (int i = 0; i < vd.size(); i++) {
 		texData = (vd[i]->getRawImageOut())->getpPixels();
-		//m = new BackgroundScreen(Vector3f(0, 0, -10), program[1]);  // See through screen
-		m = new videoScreen(Vector3f(0, 0, -14.5), program[1]);
-		//m->setTexture(screenTexId, screenCopy->screenData, screenCopy->width, screenCopy->height);
+		m = new videoScreen(Vector3f(0, 1.5f - (0.48f + 0.2f) * (i / 2), -14), program[1]);
 		m->setTexture(texId[i], texData, vd[i]->getWidth(), vd[i]->getHeight());
-		m->initScreen(initPoint + i*0.64f/15.0f, 1.0f, 15.0f, 0.64f, 0.48f);
+		m->RotationY(-initPoint - (i%2)*0.64f*1.5f/15.0f);
+		m->initScreen(0.0f, 0.0f, 15.0f, 0.64f, 0.48f);
+		//m->initScreen(initPoint + (i % 2)*1.5f * 0.64f / 15.0f, 1.5f - (0.48f + 0.2f) * (i / 2), 15.0f, 0.64f, 0.48f);
 		m->AllocateBuffers();
 		Models.push_back(m);
 	}
-
-	////m = new SeeThroughScreen(Vector3f(0, 0, 0), program);
-	//m = new BackgroundScreen(Vector3f(0, 0, 0), program[0]);  // See through screen
-	//m->setTexture(screenTexId, screenCopy->screenData, screenCopy->width, screenCopy->height);
-	//m->initScreen(-96.0f / 2.0f, -60.0f / 2.0f, 40.0f, 96.0f, 60.0f);
-	//m->AllocateBuffers();
-	//Models.push_back(m);
-
-	//pM = new SelectedScreen(Vector3f(0, 0, 0), program[0]);
-	//m = pM;
-	//Models.push_back(m);
-
-	//float initPoint = PI / 2.0f;
-
-	//for (int i = 1; i < numCam; i++) {
-	//	texData = (vd[i].getRawImageOut())->getpPixels();
-	//	m = new videoScreen(Vector3f(0, 0, 0), program[1]);
-	//	m->setTexture(texId[i], texData, vd[i].getWidth(), vd[i].getHeight());
-	//	m->initScreen(initPoint + i*6.4f/10.0f, -2.0f, 15.0f, 6.4f*1.5, 4.8f*1.5);
-	//	//m->initScreen(initPoint + i*PI / 4.0f, 0.5f, 1.0f, 0.64f, 0.48f);
-	//	m->AllocateBuffers();
-	//	Models.push_back(m);
-	//}
 
 	sM = Models.begin()+2;
 	pM->initScreen(*sM);
@@ -155,16 +132,16 @@ void Scene::NextScreen() {
 	swapScreen = 0;
 	if (sM < Models.end() - 1) {
 		sM++;
-		pM->initScreen(Models[3]);
+		pM->initScreen(*sM);
 		pM->AllocateBuffers();
 	}
 }
 
 void Scene::PrevScreen() {
 	swapScreen = 0;
-	if (sM > Models.begin() + numCam) {
+	if (sM > Models.begin() + 2) {
 		sM--;
-		pM->initScreen(Models[2]);
+		pM->initScreen(*sM);
 		pM->AllocateBuffers();
 	}
 }
@@ -187,12 +164,14 @@ void Scene::Translate(float x, float y, float z) {
 
 void Scene::ZoomIn() {
 	//scale += 0.1f;
-	(*sM)->setScale(1.1f);
+	//(*sM)->setScale(1.1f);
+	(*sM)->setScale(0.1f);
 }
 
 void Scene::ZoomOut() {
 	//scale -= 0.1f;
-	(*sM)->setScale(1.0f/1.1f);
+	//(*sM)->setScale(1.0f/1.1f);
+	(*sM)->setScale(-0.1f);
 }
 
 int Scene::InitCams() {
@@ -334,9 +313,9 @@ void Scene::InitShader() {
 		"void main()\n"
 		"{\n"
 		"	vec4 Vertex;"
-		"	Vertex.x = Position.z * cos(Position.x * Scale);\n"
+		"	Vertex.x = Position.z * cos(Scale * Position.x);\n"
 		"	Vertex.y = Position.y * Scale;\n"
-		"	Vertex.z = Position.z * sin(Position.x * Scale);\n"
+		"	Vertex.z = Position.z * sin(Scale * Position.x);\n"
 		"	Vertex.w = 1;\n"
 		"   gl_Position = (matWVP * Vertex);\n"
 		"   oTexCoord   = TexCoord;\n"

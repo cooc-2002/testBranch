@@ -1,4 +1,4 @@
-﻿  Gesture.cc
-\\141.223.87.88\codes\testbranch\gesturerecognition\Gesture.h(6): fatal error C1083: 포함 파일을 열 수 없습니다. 'opencv2/opencv.hpp': No such file or directory
-  main.cpp
-main.cpp(4): fatal error C1083: 포함 파일을 열 수 없습니다. 'opencv2/opencv.hpp': No such file or directory
+﻿  코드를 생성하고 있습니다.
+  All 631 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  코드를 생성했습니다.
+  gestureRecognition.vcxproj -> \\141.223.87.88\Codes\testBranch\Release\gestureRecognition.exe

@@ -167,8 +167,8 @@ void Model::setTexture(GLuint _texId, unsigned char *_texData, int _width, int _
 }
 
 void Model::setScale(float _scale) {
-	scale *= _scale;
-	//Pos.z += _scale;
+	//scale *= _scale;
+	Pos.z += _scale;
 }
 
 void Model::Render(Matrix4f view, Matrix4f stillView, Matrix4f proj)
@@ -182,7 +182,7 @@ void Model::Render(Matrix4f view, Matrix4f stillView, Matrix4f proj)
 
 	glUseProgram(program);
 	glUniform1i(glGetUniformLocation(program, "Texture0"), 0);
-	glUniform1f(glGetUniformLocation(program, "Scale"), scale);
+	glUniform1f(glGetUniformLocation(program, "Scale"), 1.0f);
 	glUniformMatrix4fv(glGetUniformLocation(program, "matWVP"), 1, GL_TRUE, (FLOAT*)&combined);
 
 	glActiveTexture(GL_TEXTURE0);

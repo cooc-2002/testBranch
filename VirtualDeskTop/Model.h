@@ -49,6 +49,7 @@ public:
 	virtual void Render(Matrix4f view, Matrix4f stillView, Matrix4f proj);
 
 	Vertex getStruct() { return structure; };
+	float getScale() { return scale; };
 	void SetStruct(float x, float y, float z, float w, float h);
 	void RotationY(float diff);
 	void setScale(float _scale);

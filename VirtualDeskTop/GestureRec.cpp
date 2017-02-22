@@ -9,7 +9,7 @@ GestureRec::~GestureRec(){
 
 }
 
-void GestureRec::setImg(unsigned char _img, unsigned int _width, unsigned int _heigth) {
+void GestureRec::setImg(unsigned char *_img, unsigned int _width, unsigned int _heigth) {
 	img = _img;
 	width = _width;
 	height = _heigth;
