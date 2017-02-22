@@ -25,21 +25,29 @@
 #define PI 3.14159265359
 
 Scene::Scene() {
+	bgImg = NULL;
+	width = height = 0;
+	scale = 0.0f;
 	screenCopy = new ScreenCopy;
 	Init();
 }
 
 void Scene::Release(){
 	Models.clear();
-	if (program){
-		glDeleteProgram(program);
-		program = 0;
+	if (program[0]){
+		glDeleteProgram(program[0]);
+		program[0] = 0;
+	}
+
+	if (program[1]) {
+		glDeleteProgram(program[1]);
+		program[1] = 0;
 	}
 }
 
 Scene::~Scene(){
 	if(screenCopy != NULL) delete screenCopy;
-	if (vd != NULL) delete [] vd;
+	vd.clear();
 
 	Release();
 }
@@ -52,11 +60,7 @@ void Scene::Render(Matrix4f stillview, Matrix4f view, Matrix4f proj){
 		PrevScreen();
 
 	for (int i = 0; i < Models.size(); ++i)
-		if (i == 0)
-			Models[i]->Render(view, stillview, proj);
-			//Models[i]->Render(stillview, proj);
-		else
-			Models[i]->Render(view, stillview, proj);
+		Models[i]->Render(view, stillview, proj);
 }
 
 GLuint Scene::CreateShader(GLenum type, const GLchar* src){
@@ -91,54 +95,33 @@ void Scene::Init()
 
 	Model *m;
 	unsigned char *texData;
-	texData = (vd[0].getRawImageOut())->getpPixels();
+	//texData = (vd[0].getRawImageOut())->getpPixels();
 
-	m = new SeeThroughScreen(Vector3f(0, 0, 0), program);
+	m = new SeeThroughScreen(Vector3f(0, 0, 0), program[0]);
 	//m = new BackgroundScreen(Vector3f(0, 0, 0), program);  // See through screen
-	m->setTexture(texId[0], texData, vd[0].getWidth(), vd[0].getHeight());
+	//m->setTexture(texId[0], texData, vd[0].getWidth(), vd[0].getHeight());
+	//m->setTexture(texId[0], bgImg, width, height);
 	//m->setTexture(screenTexId, screenCopy->screenData, screenCopy->width, screenCopy->height);
-	m->initScreen(-192.0f / 2.0f, -120.0f / 2.0f, 80.0f, 192.0f, 120.0f);
+	m->initScreen(-96.0f / 2.0f, -95.0f / 2.0f, 40.0f, 96.0f, 95.0f);
 	m->AllocateBuffers();
 	Models.push_back(m);
 
-	pM = new SelectedScreen(Vector3f(0, 0, 0), program);
+	pM = new SelectedScreen(Vector3f(0, 0, 0), program[1]);
 	m = pM;
 	Models.push_back(m);
 
-	float initPoint = PI/2.0f;
+	float initPoint = 3.141592f/2.0f;
 
-	for (int i = 0; i < numCam; i++) {
-		//texData = (vd[i].getRawImageOut())->getpPixels();
-		m = new BackgroundScreen(Vector3f(0, 0, 0), program);  // See through screen
-		//m = new videoScreen(Vector3f(0, 0, 0), program);
-		m->setTexture(screenTexId, screenCopy->screenData, screenCopy->width, screenCopy->height);
-		//m->setTexture(texId[i], texData, vd[i].getWidth(), vd[i].getHeight());
-		m->initScreen(initPoint + i*0.64f*1.5f, 0.5f, 1.0f, 0.64f, 0.48f);
+	for (int i = 0; i < vd.size(); i++) {
+		texData = (vd[i]->getRawImageOut())->getpPixels();
+		m = new videoScreen(Vector3f(0, 1.5f - (0.48f + 0.2f) * (i / 2), -14), program[1]);
+		m->setTexture(texId[i], texData, vd[i]->getWidth(), vd[i]->getHeight());
+		m->RotationY(-initPoint - (i%2)*0.64f*1.5f/15.0f);
+		m->initScreen(0.0f, 0.0f, 15.0f, 0.64f, 0.48f);
+		//m->initScreen(initPoint + (i % 2)*1.5f * 0.64f / 15.0f, 1.5f - (0.48f + 0.2f) * (i / 2), 15.0f, 0.64f, 0.48f);
 		m->AllocateBuffers();
 		Models.push_back(m);
 	}
-
-	//m = new SeeThroughScreen(Vector3f(0, 0, 0), program);
-	//m = new BackgroundScreen(Vector3f(0, 0, 0), program);  // See through screen
-	//m->setTexture(screenTexId, screenCopy->screenData, screenCopy->width, screenCopy->height);
-	//m->initScreen((PI + 192.0f/80.0f)/2.0f, -120.0f / 2.0f, 80.0f, 192.0f, 120.0f);
-	//m->AllocateBuffers();
-	//Models.push_back(m);
-
-	//pM = new SelectedScreen(Vector3f(0, 0, 0), program);
-	//m = pM;
-	//Models.push_back(m);
-
-	//float initPoint = PI / 2.0f;
-
-	//for (int i = 0; i < numCam; i++) {
-	//	texData = (vd[i].getRawImageOut())->getpPixels();
-	//	m = new videoScreen(Vector3f(0, 0, 0), program);
-	//	m->setTexture(texId[i], texData, vd[i].getWidth(), vd[i].getHeight());
-	//	m->initScreen(initPoint + i*PI / 4.0f, 0.5f, 1.0f, 0.64f, 0.48f);
-	//	m->AllocateBuffers();
-	//	Models.push_back(m);
-	//}
 
 	sM = Models.begin()+2;
 	pM->initScreen(*sM);
@@ -149,7 +132,7 @@ void Scene::NextScreen() {
 	swapScreen = 0;
 	if (sM < Models.end() - 1) {
 		sM++;
-		pM->initScreen(Models[3]);
+		pM->initScreen(*sM);
 		pM->AllocateBuffers();
 	}
 }
@@ -158,7 +141,7 @@ void Scene::PrevScreen() {
 	swapScreen = 0;
 	if (sM > Models.begin() + 2) {
 		sM--;
-		pM->initScreen(Models[2]);
+		pM->initScreen(*sM);
 		pM->AllocateBuffers();
 	}
 }
@@ -179,6 +162,18 @@ void Scene::Translate(float x, float y, float z) {
 	(*sM)->Translate(x, y, z);
 }
 
+void Scene::ZoomIn() {
+	//scale += 0.1f;
+	//(*sM)->setScale(1.1f);
+	(*sM)->setScale(0.1f);
+}
+
+void Scene::ZoomOut() {
+	//scale -= 0.1f;
+	//(*sM)->setScale(1.0f/1.1f);
+	(*sM)->setScale(-0.1f);
+}
+
 int Scene::InitCams() {
 	int i;
 	HRESULT hr = S_OK;
@@ -188,13 +183,30 @@ int Scene::InitCams() {
 		hr = pAttributes->SetGUID(MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE, MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE_VIDCAP_GUID);
 	hr = MFEnumDeviceSources(pAttributes, &ppDevices, &numCam);
 
-	vd = new videoDevice[numCam];
+	wchar_t *name;
+	
+	vd.clear();
 	texId = new GLuint [numCam];
-	for (i = 0; i < numCam; i++)
-		OpenCamera(vd+i, ppDevices[i], i);
+	videoDevice *temp;
+	for (i = 0; i < numCam; i++) {
+		ppDevices[i]->GetAllocatedString(MF_DEVSOURCE_ATTRIBUTE_FRIENDLY_NAME, &name, NULL);
+		if (wcscmp(name, L"OvrvisionPro")) {
+			temp = new videoDevice;
+			OpenCamera(temp, ppDevices[i], i);
+			vd.push_back(temp);
+		}
+		CoTaskMemFree(name);
+	}
 	glGenTextures(numCam, texId);
 
 	return numCam;
+}
+
+void Scene::SetCamImage(unsigned char *img, unsigned int _width, unsigned int _height) {
+	Models[0]->setTexture(texId[0], img, _width, _height);
+	bgImg = img;
+	width = _width;
+	height = _height;
 }
 
 int Scene::OpenCamera(videoDevice *vd, IMFActivate * pActivate, unsigned int Id) {
@@ -232,6 +244,7 @@ void Scene::InitShader() {
 	static const GLchar* VertexShaderSrc =
 		"#version 150\n"
 		"uniform mat4 matWVP;\n"
+		"uniform float Scale;\n"
 		"in      vec4 Position;\n"
 		"in      vec4 Color;\n"
 		"in      vec2 TexCoord;\n"
@@ -239,7 +252,10 @@ void Scene::InitShader() {
 		"out     vec4 oColor;\n"
 		"void main()\n"
 		"{\n"
-		"   gl_Position = (matWVP * Position);\n"
+		"	vec4 Vertex;"
+		"	Vertex = Position;\n"
+		"	Vertex.w = 1;\n"
+		"   gl_Position = (matWVP * Vertex);\n"
 		"   oTexCoord   = TexCoord;\n"
 		"   oColor.rgb  = pow(Color.rgb, vec3(2.2));\n"   // convert from sRGB to linear
 		"   oColor.a    = Color.a;\n"
@@ -265,21 +281,83 @@ void Scene::InitShader() {
 
 	GLuint    vshader = CreateShader(GL_VERTEX_SHADER, VertexShaderSrc);
 	GLuint    fshader = CreateShader(GL_FRAGMENT_SHADER, FragmentShaderSrc);
-	program = glCreateProgram();
-	glAttachShader(program, vshader);
-	glAttachShader(program, fshader);
+	program[0] = glCreateProgram();
+	glAttachShader(program[0], vshader);
+	glAttachShader(program[0], fshader);
 
-	glLinkProgram(program);
+	glLinkProgram(program[0]);
 
-	glDetachShader(program, vshader);
-	glDetachShader(program, fshader);
+	glDetachShader(program[0], vshader);
+	glDetachShader(program[0], fshader);
 
 	GLint r;
-	glGetProgramiv(program, GL_LINK_STATUS, &r);
+	glGetProgramiv(program[0], GL_LINK_STATUS, &r);
 	if (!r)
 	{
 		GLchar msg[1024];
-		glGetProgramInfoLog(program, sizeof(msg), 0, msg);
+		glGetProgramInfoLog(program[0], sizeof(msg), 0, msg);
+		OVR_DEBUG_LOG(("Linking shaders failed: %s\n", msg));
+	}
+	glDeleteShader(vshader);
+	glDeleteShader(fshader);
+
+	static const GLchar* VertexShaderSrc2 =
+		"#version 150\n"
+		"uniform mat4 matWVP;\n"
+		"uniform float Scale;\n"
+		"in      vec4 Position;\n"
+		"in      vec4 Color;\n"
+		"in      vec2 TexCoord;\n"
+		"out     vec2 oTexCoord;\n"
+		"out     vec4 oColor;\n"
+		"void main()\n"
+		"{\n"
+		"	vec4 Vertex;"
+		"	Vertex.x = Position.z * cos(Scale * Position.x);\n"
+		"	Vertex.y = Position.y * Scale;\n"
+		"	Vertex.z = Position.z * sin(Scale * Position.x);\n"
+		"	Vertex.w = 1;\n"
+		"   gl_Position = (matWVP * Vertex);\n"
+		"   oTexCoord   = TexCoord;\n"
+		"   oColor.rgb  = pow(Color.rgb, vec3(2.2));\n"   // convert from sRGB to linear
+		"   oColor.a    = Color.a;\n"
+		"}\n";
+
+	static const char* FragmentShaderSrc2 =
+		"#version 150\n"
+		"uniform sampler2D Texture0;\n"
+		"in      vec4      oColor;\n"
+		"in      vec2      oTexCoord;\n"
+		"out     vec4      FragColor;\n"
+		"void main()\n"
+		"{\n"
+		"	if(oColor.a == 0)\n"
+		"	{\n"
+		"		FragColor = texture2D(Texture0, oTexCoord);\n"
+		"	}\n"
+		"	else\n"
+		"	{\n"
+		"		FragColor = oColor;\n"
+		"	}\n"
+		"}\n";
+
+	vshader = CreateShader(GL_VERTEX_SHADER, VertexShaderSrc2);
+	fshader = CreateShader(GL_FRAGMENT_SHADER, FragmentShaderSrc2);
+	program[1] = glCreateProgram();
+	glAttachShader(program[1], vshader);
+	glAttachShader(program[1], fshader);
+
+	glLinkProgram(program[1]);
+
+	glDetachShader(program[1], vshader);
+	glDetachShader(program[1], fshader);
+
+	r;
+	glGetProgramiv(program[1], GL_LINK_STATUS, &r);
+	if (!r)
+	{
+		GLchar msg[1024];
+		glGetProgramInfoLog(program[1], sizeof(msg), 0, msg);
 		OVR_DEBUG_LOG(("Linking shaders failed: %s\n", msg));
 	}
 	glDeleteShader(vshader);

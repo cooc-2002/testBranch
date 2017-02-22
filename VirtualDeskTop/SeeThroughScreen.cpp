@@ -17,6 +17,14 @@ void SeeThroughScreen::initScreen(float x, float y, float z, float w, float h) {
 
 	Vertex temp;
 	temp.C = 0x00ffffff;
+	//temp.Pos = Vector3f(1.58, 0.83, 0.99); temp.U = 1.0f; temp.V = 0.0f;
+	//Vertices.push_back(temp);
+	//temp.Pos = Vector3f(1.58, -0.67, 0.99); temp.U = 1.0f; temp.V = 1.0f;
+	//Vertices.push_back(temp);
+	//temp.Pos = Vector3f(-1.27, -0.67, 0.99); temp.U = 0.0f; temp.V = 1.0f;
+	//Vertices.push_back(temp);
+	//temp.Pos = Vector3f(-1.27, 0.83, 0.99); temp.U = 0.0f; temp.V = 0.0f;
+	//Vertices.push_back(temp);
 	temp.Pos = Vector3f(x, y + h, z); temp.U = 1.0f; temp.V = 0.0f;
 	Vertices.push_back(temp);
 	temp.Pos = Vector3f(x, y, z); temp.U = 1.0f; temp.V = 1.0f;
@@ -32,10 +40,10 @@ void SeeThroughScreen::Render(Matrix4f view, Matrix4f stillView, Matrix4f proj) 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height,
-		0, GL_BGR, GL_UNSIGNED_BYTE, texData);
+		0, GL_BGRA, GL_UNSIGNED_BYTE, texData);
 
 	Matrix4f combined = proj * stillView * GetMatrix();
-	
+
 	glUseProgram(program);
 	glUniform1i(glGetUniformLocation(program, "Texture0"), 0);
 	glUniformMatrix4fv(glGetUniformLocation(program, "matWVP"), 1, GL_TRUE, (FLOAT*)&combined);

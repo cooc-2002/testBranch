@@ -1,5 +1,4 @@
 #include "videoScreen.h"
-#define PI 3.14159265359
 
 videoScreen::videoScreen(){}
 
@@ -36,16 +35,16 @@ void videoScreen::initScreen(float x, float y, float z, float w, float h) {
 	else
 		temp.C = 0xff0000ff;
 
-	temp.Pos = Vector3f(z*cos(ir), y + h, z*sin(ir)); temp.U = 1.0f; temp.V = 0.0f;
+	temp.Pos = Vector3f(ir, y + h, z); temp.U = 1.0f; temp.V = 0.0f;
 	Vertices.push_back(temp);
-	temp.Pos = Vector3f(z*cos(ir), y, z*sin(ir)); temp.U = 1.0f; temp.V = 1.0f;
+	temp.Pos = Vector3f(ir, y, z); temp.U = 1.0f; temp.V = 1.0f;
 	Vertices.push_back(temp);
 
 	for (i = 1; i <= division; i++) {
 		ir -= rs;
-		temp.Pos = Vector3f(z*cos(ir), y, z*sin(ir)); temp.U = 1.0f - ts*i; temp.V = 1.0f;
+		temp.Pos = Vector3f(ir, y, z); temp.U = 1.0f - ts*i; temp.V = 1.0f;
 		Vertices.push_back(temp);
-		temp.Pos = Vector3f(z*cos(ir), y + h, z*sin(ir)); temp.U = 1.0f - ts*i; temp.V = 0.0f;
+		temp.Pos = Vector3f(ir, y + h, z); temp.U = 1.0f - ts*i; temp.V = 0.0f;
 		Vertices.push_back(temp);
 	}
 }

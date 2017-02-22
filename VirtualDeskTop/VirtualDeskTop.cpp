@@ -29,6 +29,8 @@ limitations under the License.
 // Include the Oculus SDK
 #include "OVR_CAPI_GL.h"
 #include "OVR_Buffers.h"
+#include "ovrvision_pro.h"	//Ovrvision SDK
+#include "GestureByKim.h"
 
 #if defined(_WIN32)
 #include <dxgi.h> // for GetDefaultAdapterLuid
@@ -145,6 +147,26 @@ static bool MainLoop(bool retryCreate)
 	// FloorLevel will give tracking poses where the floor height is 0
 	ovr_SetTrackingOriginType(session, ovrTrackingOrigin_FloorLevel);
 	ovr_RecenterTrackingOrigin(session);
+
+	//OVR Vision
+	OVR::OvrvisionPro* pOvrvision = new OVR::OvrvisionPro();
+
+	int locationID = 0;
+	OVR::Camprop cameraMode = OVR::OV_CAMVR_FULL;
+	//OVR::Camprop cameraMode = OVR::OV_CAMVR_VGA;
+	if (pOvrvision->Open(locationID, cameraMode) == 0)
+		printf("Ovrvision Pro Open Error!\nPlease check whether OvrvisionPro is connected.\n");
+	else
+		pOvrvision->SetCameraSyncMode(false);
+	
+	GestureByKim *pGesture = new GestureByKim();
+	unsigned char type;
+	float Zoom, x, y;
+
+	int width = pOvrvision->GetCamWidth();
+	int height = pOvrvision->GetCamHeight();
+	unsigned char *img;
+
 	// Main loop
 	while (Platform.HandleMessages())
 	{
@@ -156,8 +178,9 @@ static bool MainLoop(bool retryCreate)
 			retryCreate = false;
 			break;
 		}
-		//if (sessionStatus.ShouldRecenter)
-		//	ovr_RecenterTrackingOrigin(session);
+		
+		if (sessionStatus.ShouldRecenter)
+			ovr_RecenterTrackingOrigin(session);
 
 		if (sessionStatus.IsVisible)
 		{
@@ -180,6 +203,9 @@ static bool MainLoop(bool retryCreate)
 			double sensorSampleTime;    // sensorSampleTime is fed into the layer later
 			ovr_GetEyePoses(session, frameIndex, ovrTrue, HmdToEyeOffset, EyeRenderPose, &sensorSampleTime);
 
+			pOvrvision->PreStoreCamData(OVR::Camqt::OV_CAMQT_DMS);
+			//pOvrvision->PreStoreCamData(OVR::Camqt::OV_CAMQT_DMSRMP);
+
 			// Render Scene to Eye Buffers
 			for (int eye = 0; eye < 2; ++eye)
 			{
@@ -190,19 +216,31 @@ static bool MainLoop(bool retryCreate)
 				Matrix4f rollPitchYaw = Matrix4f::RotationY(Yaw);
 				Matrix4f finalRollPitchYaw = rollPitchYaw * Matrix4f(EyeRenderPose[eye].Orientation);
 				
-				Vector3f finalUp = finalRollPitchYaw.Transform(Vector3f(0, 1, 0));
-				Vector3f finalForward = finalRollPitchYaw.Transform(Vector3f(0, 0, -1));
+				Vector3f Up = finalRollPitchYaw.Transform(Vector3f(0, 1, 0));
+				Vector3f Forward = finalRollPitchYaw.Transform(Vector3f(0, 0, -1));
 				Vector3f shiftedEyePos = rollPitchYaw.Transform(EyeRenderPose[eye].Position);
-								
+				Matrix4f view = Matrix4f::LookAtRH(shiftedEyePos, shiftedEyePos + Forward, Up);
+
 				Matrix4f stillRollPitchYaw = rollPitchYaw;
 				Vector3f stillUp = stillRollPitchYaw.Transform(Vector3f(0, 1, 0));
 				Vector3f stillForward = stillRollPitchYaw.Transform(Vector3f(0, 0, -1));
-				Vector3f stillShiftedEyePos = rollPitchYaw.Transform(EyeRenderPose[eye].Position);;
-
-				Matrix4f view = Matrix4f::LookAtRH(shiftedEyePos, shiftedEyePos + finalForward, finalUp);
-				Matrix4f stillview = Matrix4f::LookAtRH(stillShiftedEyePos, shiftedEyePos + stillForward, stillUp);
-				//Matrix4f view = Matrix4f::LookAtRH(shiftedEyePos, shiftedEyePos, finalUp);
+				Matrix4f stillview = Matrix4f::LookAtRH(shiftedEyePos, shiftedEyePos + stillForward, stillUp);
+				
 				Matrix4f proj = ovrMatrix4f_Projection(hmdDesc.DefaultEyeFov[eye], 0.2f, 1000.0f, ovrProjection_None);
+
+				//Camera View
+				if (eye == 0) {
+					img = pOvrvision->GetCamImageBGRA(OVR::Cameye::OV_CAMEYE_LEFT);
+					pGesture->setImg(img, width, height);
+					pGesture->getGesture(type, Zoom, x, y);
+				}
+				else {
+					img = pOvrvision->GetCamImageBGRA(OVR::Cameye::OV_CAMEYE_RIGHT);
+					//pGesture->setImg(img, width, height);
+					//pGesture->getGesture(type, Zoom, x, y);
+				}
+
+				virtualScreen->SetCamImage(img, width, height);
 
 				// Render world
 				virtualScreen->Render(stillview, view, proj);
@@ -246,9 +284,7 @@ static bool MainLoop(bool retryCreate)
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 		GLint w = windowSize.w;
 		GLint h = windowSize.h;
-		glBlitFramebuffer(0, h, w, 0,
-			0, 0, w, h,
-			GL_COLOR_BUFFER_BIT, GL_NEAREST);
+		glBlitFramebuffer(0, h, w, 0, 0, 0, w, h, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 
 		SwapBuffers(Platform.hDC);

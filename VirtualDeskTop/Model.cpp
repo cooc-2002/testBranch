@@ -9,6 +9,7 @@ Model::Model(){
 	texId = 0;
 	width = 0; height = 0;
 	Yaw = 0;
+	scale = 1.0f;
 	vertexBuffer = NULL;
 	indexBuffer = NULL;
 }
@@ -24,6 +25,7 @@ Model::Model(Vector3f pos, GLuint prog) :
 	Yaw = 0;
 	texId = 0;
 	width = 0; height = 0;
+	scale = 1.0f;
 }
 
 Model::~Model() {
@@ -164,18 +166,23 @@ void Model::setTexture(GLuint _texId, unsigned char *_texData, int _width, int _
 	height = _height;
 }
 
+void Model::setScale(float _scale) {
+	//scale *= _scale;
+	Pos.z += _scale;
+}
+
 void Model::Render(Matrix4f view, Matrix4f stillView, Matrix4f proj)
 {
 	glBindTexture(GL_TEXTURE_2D, texId);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height,
-		0, GL_BGR, GL_UNSIGNED_BYTE, texData);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, texData);
 
 	Matrix4f combined = proj * view * GetMatrix();
-	
+
 	glUseProgram(program);
 	glUniform1i(glGetUniformLocation(program, "Texture0"), 0);
+	glUniform1f(glGetUniformLocation(program, "Scale"), 1.0f);
 	glUniformMatrix4fv(glGetUniformLocation(program, "matWVP"), 1, GL_TRUE, (FLOAT*)&combined);
 
 	glActiveTexture(GL_TEXTURE0);

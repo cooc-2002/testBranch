@@ -3,17 +3,11 @@
 
 #define PI 3.14159265359
 
-SelectedScreen::SelectedScreen()
-{
-}
+SelectedScreen::SelectedScreen() {}
 
-SelectedScreen::SelectedScreen(Vector3f pos, GLuint prog) : Model(pos, prog)
-{
-}
+SelectedScreen::SelectedScreen(Vector3f pos, GLuint prog) : Model(pos, prog) {}
 
-SelectedScreen::~SelectedScreen()
-{
-}
+SelectedScreen::~SelectedScreen() {}
 
 void SelectedScreen::initScreen(Model *temp) {
 	sM = temp;
@@ -44,19 +38,19 @@ void SelectedScreen::initScreen(float x, float y, float z, float w, float h) {
 	Vertex temp;
 	temp.C = 0xff0000ff;
 
-	temp.Pos = Vector3f(z*cos(ir), y, z*sin(ir));
+	temp.Pos = Vector3f(ir, y, z);
 	Vertices.push_back(temp);
 	for (i = 1; i <= division; i++) {
 		ir -= rs;
-		temp.Pos = Vector3f(z*cos(ir), y, z*sin(ir));
+		temp.Pos = Vector3f(ir, y, z);
 		Vertices.push_back(temp);
 	}
 
-	temp.Pos = Vector3f(z*cos(ir), y + h, z*sin(ir));
+	temp.Pos = Vector3f(ir, y + h, z);
 	Vertices.push_back(temp);
 	for (i = 1; i <= division; i++) {
 		ir += rs;
-		temp.Pos = Vector3f(z*cos(ir), y + h, z*sin(ir));
+		temp.Pos = Vector3f(ir, y + h, z);
 		Vertices.push_back(temp);
 	}
 
@@ -69,6 +63,7 @@ void SelectedScreen::Render(Matrix4f view, Matrix4f stillView, Matrix4f proj) {
 
 	glUseProgram(program);
 	glUniform1i(glGetUniformLocation(program, "Texture0"), 0);
+	glUniform1f(glGetUniformLocation(program, "Scale"), sM->getScale());
 	glUniformMatrix4fv(glGetUniformLocation(program, "matWVP"), 1, GL_TRUE, (FLOAT*)&combined);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer->buffer);

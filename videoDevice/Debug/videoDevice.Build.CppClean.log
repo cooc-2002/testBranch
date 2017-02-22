@@ -1,3 +1,13 @@
+\\141.223.87.88\codes\testbranch\videodevice\debug\videodevice.pdb
+\\141.223.87.88\codes\testbranch\videodevice\debug\videodevice.idb
+\\141.223.87.88\codes\testbranch\videodevice\debug\debugprintout.obj
+\\141.223.87.88\codes\testbranch\videodevice\debug\formatreader.obj
+\\141.223.87.88\codes\testbranch\videodevice\debug\imagegrabber.obj
+\\141.223.87.88\codes\testbranch\videodevice\debug\imagegrabberthread.obj
+\\141.223.87.88\codes\testbranch\videodevice\debug\media_foundation.obj
+\\141.223.87.88\codes\testbranch\videodevice\debug\rawimage.obj
+\\141.223.87.88\codes\testbranch\videodevice\debug\videodevice.obj
+\\141.223.87.88\codes\testbranch\videodevice\debug\videoinput.obj
 d:\codes\testbranch\videodevice\debug\videodevice.pdb
 d:\codes\testbranch\videodevice\debug\videodevice.idb
 d:\codes\testbranch\videodevice\debug\debugprintout.obj
@@ -8,6 +18,7 @@ d:\codes\testbranch\videodevice\debug\media_foundation.obj
 d:\codes\testbranch\videodevice\debug\rawimage.obj
 d:\codes\testbranch\videodevice\debug\videodevice.obj
 d:\codes\testbranch\videodevice\debug\videoinput.obj
+\\141.223.87.88\codes\testbranch\lib\win32\debug\videodevice.lib
 d:\codes\testbranch\lib\win32\debug\videodevice.lib
 d:\codes\testbranch\lib\win32\debug\videodevice.pdb
 d:\codes\testbranch\videodevice\debug\videodevice.tlog\cl.command.1.tlog

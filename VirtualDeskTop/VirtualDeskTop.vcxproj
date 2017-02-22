@@ -98,17 +98,17 @@
       <SDLCheck>
       </SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)Include;$(SolutionDir)Include\OVR;$(SolutionDir)Include\OVR\Src;$(SolutionDir)Include\opencv;$(SolutionDir)Include\opencv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <TreatWarningAsError>false</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(SolutionDir)lib\$(Platform)\$(Configuration)\LibOVR.lib;$(SolutionDir)lib\$(Platform)\$(Configuration)\videoDevice.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)lib\$(Platform)\$(Configuration)\LibOVR.lib;$(SolutionDir)lib\$(Platform)\$(Configuration)\videoDevice.lib;$(SolutionDir)lib\$(Platform)\$(Configuration)\ovrvisiond.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
@@ -146,7 +146,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
@@ -154,7 +154,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(SolutionDir)lib\$(Platform)\$(Configuration)\LibOVR.lib;$(SolutionDir)lib\$(Platform)\$(Configuration)\videoDevice.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)lib\$(Platform)\$(Configuration)\LibOVR.lib;$(SolutionDir)lib\$(Platform)\$(Configuration)\videoDevice.lib;$(SolutionDir)lib\$(Platform)\$(Configuration)\ovrvision.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
@@ -186,6 +186,9 @@
   <ItemGroup>
     <ClCompile Include="..\include\OVR\Src\GL\CAPI_GLE.cpp" />
     <ClCompile Include="BackgroundScreen.cpp" />
+    <ClCompile Include="Gesture.cc" />
+    <ClCompile Include="GestureByKim.cpp" />
+    <ClCompile Include="GestureRec.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="OGL.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -199,6 +202,11 @@
     <ClInclude Include="..\include\OVR\Src\GL\CAPI_GLE.h" />
     <ClInclude Include="..\include\OVR\Src\GL\CAPI_GLE_GL.h" />
     <ClInclude Include="BackgroundScreen.h" />
+    <ClInclude Include="basic_func.h" />
+    <ClInclude Include="Gesture.h" />
+    <ClInclude Include="GestureByKim.h" />
+    <ClInclude Include="GestureRec.h" />
+    <ClInclude Include="hand_model.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="OVR_Buffers.h" />
     <ClInclude Include="Scene.h" />
